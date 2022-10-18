@@ -1,0 +1,27 @@
+.card {
+  margin: 1rem;
+  padding: 4rem;
+  text-align: center;
+  color: inherit;
+  text-decoration: none;
+  border: 1px solid #eaeaea;
+  border-radius: 10px;
+  max-width: 800px;
+	height: 500px;
+	width: 800px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.card h2 {
+  margin: 0 0 1rem 0;
+  font-size: 2.5rem;
+}
+
+.card p {
+  margin: 0;
+  font-size: 1.8rem;
+  line-height: 1.5;
+}
+
