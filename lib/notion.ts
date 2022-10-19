@@ -4,7 +4,7 @@ const notion = new Client({ auth: process.env.NOTION_KEY })
 
 const databaseId = process.env.NOTION_DATABASE_ID
 
-export default async function posts() {
+export const queryDatabases = async () => {
     try {
         const responses = await notion.databases.query({ database_id: databaseId! })
         console.log(responses)
@@ -15,4 +15,8 @@ export default async function posts() {
     }
 }
 
-// addItem("Yurts in Big Sur, California")
+export const retrieveUser = async () => {
+    const userId = "d40e767c-d7af-4b18-a86d-55c61f1e39a4"
+    const response = await notion.users.retrieve({ user_id: userId })
+    console.log(response)
+}
