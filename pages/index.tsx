@@ -4,41 +4,35 @@ import Image from "next/image"
 import styles from "../styles/Home.module.css"
 import Card from "../components/Card"
 import { useState } from "react"
-import posts from "../lib/notion"
+import { queryDatabases } from "../lib/notion"
 
 export async function getServerSideProps() {
-    // Get the posts
-    let  results = await posts()
-    // Return the result
+    const results = await queryDatabases()
     return {
         props: {
-            posts: results || null
+            contents: results || null
         }
     }
 }
 
 interface Props {
-	posts: any
+	contents: any
 }
 
-const Home: NextPage<Props> = ({ posts }) => {
-	  const [postIndex, setPostIndex] = useState<number>(0)
+const Home: NextPage<Props> = ({ contents }) => {
+	  const [contentIndex, setContentIndex] = useState<number>(0)
 
-	  const displayPosts = posts.results.map((post: { properties: { Name: any; Description: any } }) => 
+	  const displayContents = contents.results.map((content: { properties: { Name: any; Description: any } }) => 
         ({
-            title: post.properties.Name.title[0].plain_text,
-            description: post.properties.Description.rich_text[0].plain_text
+            title: content.properties.Name.title[0].plain_text,
+            description: content.properties.Description.rich_text[0].plain_text
         })
     )
 
-    const postLength = displayPosts.length
+    const contentsLength = displayContents.length
 
-    // const displayPosts = posts
-
-    console.log(displayPosts)
-    // console.log(displayPosts[1].description)
-    const [title, setTitle] = useState(displayPosts[postIndex].title)
-    const [description, setDescription] = useState(displayPosts[postIndex].description)
+    const [title, setTitle] = useState(displayContents[contentIndex].title)
+    const [description, setDescription] = useState(displayContents[contentIndex].description)
     const [ifFlipped, setIfFlipped] = useState(false)
 
     const flipCard = () => {
@@ -46,12 +40,12 @@ const Home: NextPage<Props> = ({ posts }) => {
     }
 
     const setNewCard = (index: number) => {
-        setTitle(displayPosts[index].title)
-        setDescription(displayPosts[index].description)
+        setTitle(displayContents[index].title)
+        setDescription(displayContents[index].description)
     }
 
     const indexIncrement = () => 
-        setPostIndex((prev) => prev + 1)
+        setContentIndex((prev) => prev + 1)
     
 
     const handleClick = () => {
@@ -59,11 +53,11 @@ const Home: NextPage<Props> = ({ posts }) => {
     }
 
     const handleNextButton = () => {
-        if (postIndex < postLength - 1) {
+        if (contentIndex < contentsLength - 1) {
             indexIncrement()
-            console.log(postIndex)
+            console.log(contentIndex)
             setIfFlipped(false)
-            setNewCard(postIndex + 1)
+            setNewCard(contentIndex + 1)
         } else {
             setTitle("Congrats!!")
         }
@@ -84,7 +78,7 @@ const Home: NextPage<Props> = ({ posts }) => {
                 </h1>
 
                 <p className={styles.description}>
-                    {postIndex + 1} / {postLength}
+                    {contentIndex + 1} / {contentsLength}
                 </p>
 
                 <div className={styles.grid}>
