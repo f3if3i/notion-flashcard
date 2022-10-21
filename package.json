@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "scaffold": "ts-node --project scripts/tsconfig.json scripts/component_scaffold/index.ts --"
-
+    "scaffold:component": "ts-node --project scripts/tsconfig.json scripts/component_scaffold/index.ts --",
+    "scaffold:page": "ts-node --project scripts/tsconfig.json scripts/page_scaffold/index.ts --"
   },
   "dependencies": {
     "@emotion/css": "^11.10.0",
