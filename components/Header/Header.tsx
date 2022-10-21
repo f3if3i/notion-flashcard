@@ -1,13 +1,13 @@
 import styles from "../../components/Header/Header.module.css"
 
-type HeaderProps = {
-	name: string
-}
+// type HeaderProps = {
+// 	// name: string
+// }
 
-const Header = ({ name }: HeaderProps) => {
+const Header = () => {
 	
     return (
-        <div className={styles.header}>{name} Sample</div>
+        <div className={styles.container}>Sample</div>
     )
 }
 

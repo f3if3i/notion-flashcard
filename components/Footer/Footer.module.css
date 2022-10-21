@@ -1,3 +1,12 @@
 .container {
-	
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 00.5rem;
+	font-size: 8px;
+	color: rgba(0, 0, 0, 0.8);
 }
