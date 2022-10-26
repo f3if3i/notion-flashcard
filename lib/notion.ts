@@ -1,22 +1,25 @@
-import { Client } from "@notionhq/client"
+import { request } from "../utils/request"
 
-const notion = new Client({ auth: process.env.NOTION_KEY })
+const API_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT
 
-const databaseId = process.env.NOTION_DATABASE_ID
-
-export const queryDatabases = async () => {
-    try {
-        const responses = await notion.databases.query({ database_id: databaseId! })
-        console.log(responses)
-        console.log("Successfully fetched!")
-        return responses
-    } catch (error: any) {
-        console.error(error.body)
-    }
+type DBIDDataType = {
+	database_id: string
 }
 
-export const retrieveUser = async () => {
-    const userId = "d40e767c-d7af-4b18-a86d-55c61f1e39a4"
-    const response = await notion.users.retrieve({ user_id: userId })
-    console.log(response)
+export default class notion {
+    static retreiveUser(data: DBIDDataType) {
+        return request ({
+            url: `${API_ENDPOINT}/user`,
+            method: "POST",
+            data
+        })
+    }
+
+    static queryDatabase(data: DBIDDataType) {
+        return request ({
+            url: `${API_ENDPOINT}/database`,
+            method: "POST",
+            data
+        })
+    }
 }

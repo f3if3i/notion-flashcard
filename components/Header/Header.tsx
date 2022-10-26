@@ -5,9 +5,9 @@ import styles from "../../components/Header/Header.module.css"
 // }
 
 const Header = () => {
-	
+
     return (
-        <div className={styles.container}>Sample</div>
+        <div className={styles.container}>🚀 0.1.0 released</div>
     )
 }
 
