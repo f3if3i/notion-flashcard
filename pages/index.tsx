@@ -79,9 +79,7 @@ const Home: NextPageWithLayout = () => {
         if (localStorage.hasOwnProperty("notionFlashcardDBIdList")) {
             const dbIdList = JSON.parse(localStorage.getItem("notionFlashcardDBIdList")!)
             const dbNameList = JSON.parse(localStorage.getItem("notionFlashcardDBNameList")!)
-            console.log("newDB", newDB)
             if (!dbIdList.includes(newDB.id)) {
-                console.log("dbIdList.includes(newDB.id)", dbIdList.includes(newDB.id))
                 if (dbIdList.length > 6) {
                     dbIdList.shift()
                     dbNameList.shift()
@@ -108,19 +106,16 @@ const Home: NextPageWithLayout = () => {
             const id = url.replace("https://www.notion.so/", "").split("/")[1].split("?")[0]
             return id
         } catch (error) {
-            console.log(error)
         }
     }
 
     const handleSubmit = () => {
         setErrorMessage("")
         const database_id = getDatabaseId(inputUrl)
-        console.log("database_id", database_id)
         if (database_id && database_id.length === 32) {
             if (localStorage.hasOwnProperty("notionFlashcardDBIdList") && localStorage.hasOwnProperty("notionFlashcardDBNameList")) {
                 const dbIdList = JSON.parse(localStorage.getItem("notionFlashcardDBIdList")!)
                 if (dbIdList.includes(database_id)) {
-                    console.log("dbIdList.includes(database_id)", dbIdList.includes(database_id))
                     setErrorMessage("The database already exists in the list 👉")
                 }
 

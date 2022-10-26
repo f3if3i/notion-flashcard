@@ -8,7 +8,6 @@ type DBIDDataType = {
 
 export default class notion {
     static retreiveUser(data: DBIDDataType) {
-        console.log("url", `${API_ENDPOINT}/user`)
         return request ({
             url: `${API_ENDPOINT}/user`,
             method: "POST",
