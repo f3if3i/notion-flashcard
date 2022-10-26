@@ -114,6 +114,7 @@ const Home: NextPageWithLayout = () => {
 
         const database_id = getDatabaseId(inputUrl)
         if (database_id && database_id.length === 32) {
+
             if (localStorage.hasOwnProperty("notionFlashcardDBIdList") && localStorage.hasOwnProperty("notionFlashcardDBNameList")) {
                 const dbIdList = JSON.parse(localStorage.getItem("notionFlashcardDBIdList")!)
                 if (dbIdList.includes(database_id)) {
@@ -126,8 +127,15 @@ const Home: NextPageWithLayout = () => {
                             }
                         }
                     )
-
                 }
+            } else {
+                fetchData(database_id).then(
+                    (result) => {
+                        if (result && result.id) {
+                            updateLocalStorage(result.id, result.name)
+                        }
+                    }
+                )
 
             }
         } else {
