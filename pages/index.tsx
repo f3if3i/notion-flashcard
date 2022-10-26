@@ -111,22 +111,24 @@ const Home: NextPageWithLayout = () => {
 
     const handleSubmit = () => {
         setErrorMessage("")
+
         const database_id = getDatabaseId(inputUrl)
         if (database_id && database_id.length === 32) {
             if (localStorage.hasOwnProperty("notionFlashcardDBIdList") && localStorage.hasOwnProperty("notionFlashcardDBNameList")) {
                 const dbIdList = JSON.parse(localStorage.getItem("notionFlashcardDBIdList")!)
                 if (dbIdList.includes(database_id)) {
                     setErrorMessage("The database already exists in the list 👉")
+                } else {
+                    fetchData(database_id).then(
+                        (result) => {
+                            if (result && result.id) {
+                                updateLocalStorage(result.id, result.name)
+                            }
+                        }
+                    )
+
                 }
 
-            } else {
-                fetchData(database_id).then(
-                    (result) => {
-                        if (result && result.id) {
-                            updateLocalStorage(result.id, result.name)
-                        }
-                    }
-                )
             }
         } else {
             setErrorMessage("😵 Oops, the url is invalid. Try another url!")
