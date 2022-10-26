@@ -1,13 +1,8 @@
 import styles from "../../components/Footer/Footer.module.css"
 
-type FooterProps = {
-	name: string
-}
-
-const Footer = ({ name }: FooterProps) => {
-	
+const Footer = () => {
     return (
-        <div className={styles.container}>{name} Sample</div>
+        <div className={styles.container}>Created by f3if3i / Powered by Vercel and Notion</div>
     )
 }
 
