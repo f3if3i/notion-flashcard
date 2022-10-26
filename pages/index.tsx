@@ -105,16 +105,20 @@ const Home: NextPageWithLayout = () => {
         try {
             const id = url.replace("https://www.notion.so/", "").split("/")[1].split("?")[0]
             return id
-        } catch (error) { }
+        } catch (error) {
+        }
     }
 
     const handleSubmit = () => {
         setErrorMessage("")
         const database_id = getDatabaseId(inputUrl)
         if (database_id && database_id.length === 32) {
-            const dbIdList = JSON.parse(localStorage.getItem("notionFlashcardDBIdList")!)
-            if (dbIdList.includes(database_id)) {
-                setErrorMessage("The database already exists in the list 👉")
+            if (localStorage.hasOwnProperty("notionFlashcardDBIdList") && localStorage.hasOwnProperty("notionFlashcardDBNameList")) {
+                const dbIdList = JSON.parse(localStorage.getItem("notionFlashcardDBIdList")!)
+                if (dbIdList.includes(database_id)) {
+                    setErrorMessage("The database already exists in the list 👉")
+                }
+
             } else {
                 fetchData(database_id).then(
                     (result) => {
