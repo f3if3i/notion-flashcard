@@ -117,10 +117,13 @@ const Home: NextPageWithLayout = () => {
         const database_id = getDatabaseId(inputUrl)
         console.log("database_id", database_id)
         if (database_id && database_id.length === 32) {
-            const dbIdList = JSON.parse(localStorage.getItem("notionFlashcardDBIdList")!)
-            if (dbIdList.includes(database_id)) {
-                console.log("dbIdList.includes(database_id)", dbIdList.includes(database_id))
-                setErrorMessage("The database already exists in the list 👉")
+            if (localStorage.hasOwnProperty("notionFlashcardDBIdList") && localStorage.hasOwnProperty("notionFlashcardDBNameList")) {
+                const dbIdList = JSON.parse(localStorage.getItem("notionFlashcardDBIdList")!)
+                if (dbIdList.includes(database_id)) {
+                    console.log("dbIdList.includes(database_id)", dbIdList.includes(database_id))
+                    setErrorMessage("The database already exists in the list 👉")
+                }
+
             } else {
                 fetchData(database_id).then(
                     (result) => {
