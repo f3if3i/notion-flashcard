@@ -29,7 +29,7 @@ const styles = {
         border: "1px solid #eaeaea",
         borderRadius: "10px",
         maxWidth: "800px",
-        height: "500px",
+        height: "100%",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
