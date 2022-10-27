@@ -4,7 +4,7 @@ import { Client } from "@notionhq/client"
 import { DatabaseObjectResponse } from "@notionhq/client/build/src/api-endpoints"
 
 export type User = {
-  userId: string
+    userId: string
 	userName: string | null,
 }
 
