@@ -2,11 +2,9 @@ import { writeFileSync } from "fs"
 
 import {
     createPageTemplate,
-    createStyleTemplate,
 } from "./templates"
 
 const getArgValue = (arg: string): { name: string; value: string } => {
-    console.log(arg)
     const initStr = arg.slice(0, 2)
     if (initStr !== "--") {
         throw new Error("please input --")
@@ -54,7 +52,6 @@ const main = () => {
             `pages/${lowerCases}.tsx`,
             createPageTemplate(pageName.value)
         )
-        writeFileSync(`styles/${pageName.value}.module.css`, createStyleTemplate())
     } catch (error) {
     // eslint-disable-next-line no-console
         console.error(error)
