@@ -9,7 +9,7 @@ type ${name}Props = {
 const ${name} = ({ name }: ${name}Props) => {
 	
     return (
-        <div className={styles.container}>{name} Sample</div>
+        <div css={styles.container}>{name} Sample</div>
     )
 }
 
