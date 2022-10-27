@@ -24,7 +24,7 @@ const styles = {
         alignItems: "center",
         justifyContent: "center",
         height: "100vh",
-        minHeight: "800px"
+        minHeight: "600px"
     }),
     content: css({
         maxWidth: "1366px",
