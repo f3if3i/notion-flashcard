@@ -4,7 +4,6 @@ import { Client } from "@notionhq/client"
 import { DatabaseObjectResponse } from "@notionhq/client/build/src/api-endpoints"
 
 type Data = {
-  // response: PartialDatabaseObjectResponse
 	userId: string
 }
 

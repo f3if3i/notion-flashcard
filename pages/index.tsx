@@ -285,6 +285,7 @@ const styles = {
     container: css({
         display: "grid",
         gridTemplateColumns: "1fr 1fr 1fr 1fr",
+        gridTemplateRows: "480px",
         width: "1200px",
         gap: "28px",
         backgroundColor: "#f5f5f5",
@@ -310,6 +311,7 @@ const styles = {
         display: "flex",
         borderRadius: "28px",
         justifyContent: "space-evenly",
+        alignItems: "center",
         flexWrap: "nowrap",
         width: "100%",
         padding: "26px",
@@ -410,6 +412,8 @@ const styles = {
         transform: "translateX(0)"
     }),
     dbInfoContainer: css({
+        marginTop: "28px",
+        alignSelf: "flex-start"
     }),
     dbButton: css({
         padding: "12px 28px",
@@ -423,7 +427,6 @@ const styles = {
             transform: "scale(1.03)"
         },
         transition: "transform .2s"
-
     }),
     dbListContainer: css({
         marginTop: "20px",
@@ -442,7 +445,9 @@ const styles = {
         padding: "20px",
     }),
     flashCardContainer: css({
-        width: "76%"
+        width: "76%",
+        height: "100%",
+        padding: "18px"
     }),
     underline: css({
         textDecoration: "rgba(252, 186, 3) wavy underline"
