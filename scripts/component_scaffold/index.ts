@@ -2,12 +2,10 @@ import { existsSync, mkdirSync, writeFileSync } from "fs"
 
 import {
     createComponentTemplate,
-    createStyleTemplate,
     createIndexTemplate
 } from "./templates"
 
 const getArgValue = (arg: string): { name: string; value: string } => {
-    console.log(arg)
     const initStr = arg.slice(0, 2)
     if (initStr !== "--") {
         throw new Error("please input --")
@@ -50,7 +48,6 @@ const main = () => {
         validateArgs(process.argv)
         const componentName = getArgValue(process.argv[3])
 
-        // HACK: 雑な実装です
         const path = `components/${componentName.value}`
         if (!existsSync(path)) {
             mkdirSync(path, {
@@ -61,7 +58,6 @@ const main = () => {
             `${path}/${componentName.value}.tsx`,
             createComponentTemplate(componentName.value)
         )
-        writeFileSync(`${path}/${componentName.value}.module.css`, createStyleTemplate())
         writeFileSync(
             `${path}/index.ts`,
             createIndexTemplate(componentName.value)
