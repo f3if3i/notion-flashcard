@@ -311,6 +311,7 @@ const styles = {
         display: "flex",
         borderRadius: "28px",
         justifyContent: "space-evenly",
+        alignItems: "center",
         flexWrap: "nowrap",
         width: "100%",
         padding: "26px",
@@ -411,6 +412,8 @@ const styles = {
         transform: "translateX(0)"
     }),
     dbInfoContainer: css({
+        marginTop: "28px",
+        alignSelf: "flex-start"
     }),
     dbButton: css({
         padding: "12px 28px",
