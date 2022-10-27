@@ -2,10 +2,10 @@ export const createPageTemplate = (
     name: string
 ): string => `// import type { NextPage } from "next"
 import Head from "next/head"
-import styles from "../styles/${name}.module.css"
 import Layout from "../components/Layout/Layout"
 import type { ReactElement } from "react"
 import type { NextPageWithLayout } from "./_app"
+import { css } from "@emotion/react"
 
 const ${name}: NextPageWithLayout = () => {
 
@@ -27,6 +27,12 @@ const ${name}: NextPageWithLayout = () => {
     )
 }
 
+const styles = {
+	container: css({
+		backgroundColor: "pink"
+	})
+}
+
 ${name}.getLayout = function getLayout(page: ReactElement) {
     return (
         <Layout>
@@ -36,10 +42,4 @@ ${name}.getLayout = function getLayout(page: ReactElement) {
 }
 
 export default ${name}
-`
-
-export const createStyleTemplate = (): string => `.container {
-	width: 500px;
-	background-color: pink
-}
 `
