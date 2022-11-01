@@ -10,7 +10,7 @@ import { CSSTransition } from "react-transition-group"
 import { HiArrowCircleLeft } from "react-icons/hi"
 import Card from "../components/Card"
 import { getDatabaseId, isDBIdValid } from "../utils/parseUrl"
-import { localStorageInit, FC_LOCAL_STORAGE } from "../utils/localStorage"
+import { localStorageInit, FC_LOCAL_STORAGE, updateLocalStorage, isDBExisted } from "../utils/localStorage"
 
 type DatabaseRow = {
     name: string,
@@ -41,16 +41,15 @@ const Home: NextPageWithLayout = () => {
         if (localStorage.hasOwnProperty(FC_LOCAL_STORAGE)) {
             const dbList = JSON.parse(localStorage.getItem(FC_LOCAL_STORAGE) || "[]")
             dbList && setKnowDatabase(dbList)
-            console.log(dbList)
         }
     }, [])
 
     const fetchData = async (database_id: string) => {
         setDatabaseLoading(true)
         try {
-            const response = await notion.retreiveUser({ database_id: database_id })
-            const responseDB = await notion.queryDatabase({ database_id: database_id })
-            const filteredDatabase = responseDB.data.results.map((data: { properties: { Name: { title: { plain_text: any }[] }; Description: { rich_text: { plain_text: any }[] } } }) => ({
+            const response = await notion.retreiveUser({ database_id: database_id }) || []
+            const responseDB = await notion.queryDatabase({ database_id: database_id }) || []
+            const filteredDatabase = responseDB && responseDB.data.results.map((data: { properties: { Name: { title: { plain_text: any }[] }; Description: { rich_text: { plain_text: any }[] } } }) => ({
                 name: data.properties.Name.title[0].plain_text,
                 description: data.properties.Description.rich_text[0].plain_text
             }))
@@ -62,37 +61,10 @@ const Home: NextPageWithLayout = () => {
             setDescription(filteredDatabase[0].description)
             setContentIndex(0)
             setPanelExpand(true)
-            return { name: responseDB.data.databaseTitle, id: database_id }
+            return [{ name: responseDB.data.databaseTitle, id: database_id }, filteredDatabase]
         } catch (exception) {
             setDatabaseLoading(false)
             setErrorMessage("Please check if the database format is valid and none of the field is empty")
-        }
-    }
-
-    const updateLocalStorage = (database_id: string, database_name: string) => {
-        const newDB = { id: database_id, name: database_name }
-        if (localStorage.hasOwnProperty("notionFlashcardDBIdList")) {
-            const dbIdList = JSON.parse(localStorage.getItem("notionFlashcardDBIdList")!)
-            const dbNameList = JSON.parse(localStorage.getItem("notionFlashcardDBNameList")!)
-            if (!dbIdList.includes(newDB.id)) {
-                if (dbIdList.length > 6) {
-                    dbIdList.shift()
-                    dbNameList.shift()
-                }
-                dbIdList.push(newDB.id)
-                dbNameList.push(newDB.name)
-                localStorage.setItem("notionFlashcardDBIdList", JSON.stringify(dbIdList))
-                localStorage.setItem("notionFlashcardDBNameList", JSON.stringify(dbNameList))
-                setKnowDatabase((prev) => [...prev, newDB])
-            }
-        } else {
-            const dbIdList: string[] = []
-            const dbNameList: string[] = []
-            dbIdList.push(newDB.id)
-            dbNameList.push(newDB.name)
-            localStorage.setItem("notionFlashcardDBIdList", JSON.stringify(dbIdList))
-            localStorage.setItem("notionFlashcardDBNameList", JSON.stringify(dbNameList))
-            setKnowDatabase((prev) => [...prev, newDB])
         }
     }
 
@@ -101,29 +73,17 @@ const Home: NextPageWithLayout = () => {
 
         const database_id = getDatabaseId(inputUrl)
         if (isDBIdValid(database_id)) {
-
-            if (localStorage.hasOwnProperty("notionFlashcardDBIdList") && localStorage.hasOwnProperty("notionFlashcardDBNameList")) {
-                const dbIdList = JSON.parse(localStorage.getItem("notionFlashcardDBIdList")!)
-                if (dbIdList.includes(database_id)) {
+            if (localStorage.hasOwnProperty(FC_LOCAL_STORAGE)) {
+                if (isDBExisted(database_id)) {
                     setErrorMessage("The database already exists in the list 👉")
                 } else {
                     fetchData(database_id).then(
                         (result) => {
-                            if (result && result.id) {
-                                updateLocalStorage(result.id, result.name)
-                            }
+                            const dbList = updateLocalStorage(result![0])
+                            setKnowDatabase(dbList)
                         }
                     )
                 }
-            } else {
-                fetchData(database_id).then(
-                    (result) => {
-                        if (result && result.id) {
-                            updateLocalStorage(result.id, result.name)
-                        }
-                    }
-                )
-
             }
         } else {
             setErrorMessage("😵 Oops, the url is invalid. Try another url!")
