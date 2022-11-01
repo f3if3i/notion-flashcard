@@ -9,6 +9,7 @@ import { css } from "@emotion/react"
 import { CSSTransition } from "react-transition-group"
 import { HiArrowCircleLeft } from "react-icons/hi"
 import Card from "../components/Card"
+import { getDatabaseId, isDBIdValid } from "../utils/parseUrl"
 
 type DatabaseRow = {
     name: string,
@@ -101,19 +102,11 @@ const Home: NextPageWithLayout = () => {
         }
     }
 
-    const getDatabaseId = (url: string) => {
-        try {
-            const id = url.replace("https://www.notion.so/", "").split("/")[1].split("?")[0]
-            return id
-        } catch (error) {
-        }
-    }
-
     const handleSubmit = () => {
         setErrorMessage("")
 
         const database_id = getDatabaseId(inputUrl)
-        if (database_id && database_id.length === 32) {
+        if (isDBIdValid(database_id)) {
 
             if (localStorage.hasOwnProperty("notionFlashcardDBIdList") && localStorage.hasOwnProperty("notionFlashcardDBNameList")) {
                 const dbIdList = JSON.parse(localStorage.getItem("notionFlashcardDBIdList")!)
