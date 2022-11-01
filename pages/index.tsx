@@ -10,6 +10,7 @@ import { CSSTransition } from "react-transition-group"
 import { HiArrowCircleLeft } from "react-icons/hi"
 import Card from "../components/Card"
 import { getDatabaseId, isDBIdValid } from "../utils/parseUrl"
+import { localStorageInit, FC_LOCAL_STORAGE } from "../utils/localStorage"
 
 type DatabaseRow = {
     name: string,
@@ -36,18 +37,11 @@ const Home: NextPageWithLayout = () => {
     const [contentIndex, setContentIndex] = useState<number>(0)
 
     useEffect(() => {
-        if (localStorage.hasOwnProperty("notionFlashcardDBIdList") && localStorage.hasOwnProperty("notionFlashcardDBNameList")) {
-            const dbIdList = JSON.parse(localStorage.getItem("notionFlashcardDBIdList")!)
-            const dbNameList = JSON.parse(localStorage.getItem("notionFlashcardDBNameList")!)
-            if (dbIdList.length === dbNameList.length) {
-                const dbList = dbIdList.map((_: string, i: number) => {
-                    return {
-                        id: dbIdList[i],
-                        name: dbNameList[i]
-                    }
-                })
-                setKnowDatabase(dbList)
-            }
+        localStorageInit(FC_LOCAL_STORAGE)
+        if (localStorage.hasOwnProperty(FC_LOCAL_STORAGE)) {
+            const dbList = JSON.parse(localStorage.getItem(FC_LOCAL_STORAGE) || "[]")
+            dbList && setKnowDatabase(dbList)
+            console.log(dbList)
         }
     }, [])
 
