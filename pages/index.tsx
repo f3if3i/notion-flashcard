@@ -11,25 +11,16 @@ import { HiArrowCircleLeft } from "react-icons/hi"
 import Card from "../components/Card"
 import { getDatabaseId, isDBIdValid } from "../utils/parseUrl"
 import { localStorageInit, FC_LOCAL_STORAGE, updateLocalStorage, isDBExisted } from "../utils/localStorage"
-
-type DatabaseRow = {
-    name: string,
-    description: string
-}
-
-type DatabaseInfo = {
-    name: string,
-    id: string
-}
+import { DBInfoType, DBDataType } from "../types/database"
 
 const Home: NextPageWithLayout = () => {
     const [user, setUser] = useState<User>({ userId: "", userName: "" })
-    const [database, setDatabase] = useState<DatabaseRow[]>()
-    const [databaseInfo, setDatabaseInfo] = useState<DatabaseInfo>({ name: "", id: "" })
+    const [database, setDatabase] = useState<DBDataType[]>()
+    const [databaseInfo, setDatabaseInfo] = useState<DBInfoType>({ name: "", id: "" })
     const [inputUrl, setInputUrl] = useState<string>("")
     const [errorMessage, setErrorMessage] = useState<string>("")
     const [databaseLoading, setDatabaseLoading] = useState(false)
-    const [knownDatabase, setKnowDatabase] = useState<DatabaseInfo[]>([])
+    const [knownDatabase, setKnowDatabase] = useState<DBInfoType[]>([])
     const [isPanelExpand, setPanelExpand] = useState<boolean>(false)
     const [name, setName] = useState("")
     const [description, setDescription] = useState("")
@@ -53,15 +44,11 @@ const Home: NextPageWithLayout = () => {
                 name: data.properties.Name.title[0].plain_text,
                 description: data.properties.Description.rich_text[0].plain_text
             }))
-            setUser(response.data)
-            setDatabase(filteredDatabase)
-            setDatabaseLoading(false)
-            setDatabaseInfo({ name: responseDB.data.databaseTitle, id: database_id })
-            setName(filteredDatabase[0].name)
-            setDescription(filteredDatabase[0].description)
-            setContentIndex(0)
-            setPanelExpand(true)
-            return [{ name: responseDB.data.databaseTitle, id: database_id }, filteredDatabase]
+            return {
+                dbInfo: { name: responseDB.data.databaseTitle, id: database_id },
+                dbContent: filteredDatabase,
+                dbOwner: response.data
+            }
         } catch (exception) {
             setDatabaseLoading(false)
             setErrorMessage("Please check if the database format is valid and none of the field is empty")
@@ -79,8 +66,22 @@ const Home: NextPageWithLayout = () => {
                 } else {
                     fetchData(database_id).then(
                         (result) => {
-                            const dbList = updateLocalStorage(result![0])
-                            setKnowDatabase(dbList)
+                            if (result) {
+                                const dbInfo = result.dbInfo
+                                const dbContent = result.dbContent
+                                const dbOwner = result.dbOwner
+                                const dbList = updateLocalStorage(dbInfo)
+
+                                setKnowDatabase(dbList)
+                                setUser(dbOwner)
+                                setDatabase(dbContent)
+                                setDatabaseLoading(false)
+                                setDatabaseInfo(dbInfo)
+                                setName(dbContent[0].name)
+                                setDescription(dbContent[0].description)
+                                setContentIndex(0)
+                                setPanelExpand(true)
+                            }
                         }
                     )
                 }
@@ -94,7 +95,25 @@ const Home: NextPageWithLayout = () => {
         setInputUrl(event.target.value)
     }
     const handleClickDB = (event: any) => {
-        fetchData(event.target.value)
+        fetchData(event.target.value).then(
+            (result) => {
+                if (result) {
+                    const dbInfo = result.dbInfo
+                    const dbContent = result.dbContent
+                    const dbOwner = result.dbOwner
+                    const dbList = updateLocalStorage(dbInfo)
+
+                    setUser(dbOwner)
+                    setDatabase(dbContent)
+                    setDatabaseLoading(false)
+                    setDatabaseInfo(dbInfo)
+                    setName(dbContent[0].name)
+                    setDescription(dbContent[0].description)
+                    setContentIndex(0)
+                    setPanelExpand(true)
+                }
+            }
+        )
     }
 
     const handlePanel = () => {
