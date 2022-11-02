@@ -160,32 +160,34 @@ const Home: NextPageWithLayout = () => {
             </CSSTransition >
             <main css={styles.cardContainer}>
                 {isPanelExpand ?
-                    database ?
-                        <>
+                    loading ?
+                        <p css={styles.label}>Loading</p> :
+                        database ?
+                            <>
 
-                            <div css={styles.flashCardContainer}>
+                                <div css={styles.flashCardContainer}>
 
-                                <Card
-                                    title={name}
-                                    description={description}
-                                    ifFlipped={ifFlipped}
-                                    onClick={handleClick} />
-                            </div>
-                            <div css={styles.flashcardControlContainer}>
-                                <div css={styles.flashCardGeneralInfo}>
-                                    <p>Hi! <span css={styles.underline}>{user && user.userName}</span></p>
-                                    <p>Your are now learning <span css={styles.underline}>{databaseInfo && databaseInfo.name}</span></p>
-
-                                    <p> Progress: <span css={styles.underline}>{contentIndex + 1}</span> / {database.length}</p>
+                                    <Card
+                                        title={name}
+                                        description={description}
+                                        ifFlipped={ifFlipped}
+                                        onClick={handleClick} />
                                 </div>
-                                <button
-                                    css={[styles.submitButton]}
-                                    onClick={handleNextButton}>Next
-                                </button>
-                            </div>
-                        </>
+                                <div css={styles.flashcardControlContainer}>
+                                    <div css={styles.flashCardGeneralInfo}>
+                                        <p>Hi! <span css={styles.underline}>{user && user.userName}</span></p>
+                                        <p>Your are now learning <span css={styles.underline}>{databaseInfo && databaseInfo.name}</span></p>
 
-                        : <p css={styles.label}>{loading ? "Loading..." : "Not Loaded yet"}</p> : null
+                                        <p> Progress: <span css={styles.underline}>{contentIndex + 1}</span> / {database.length}</p>
+                                    </div>
+                                    <button
+                                        css={[styles.submitButton]}
+                                        onClick={handleNextButton}>Next
+                                    </button>
+                                </div>
+                            </>
+
+                            : null : null
                 }
             </main>
 
