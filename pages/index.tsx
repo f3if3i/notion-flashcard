@@ -12,20 +12,18 @@ import Card from "../components/Card"
 import { getDatabaseId, isDBIdValid } from "../utils/parseUrl"
 import { localStorageInit, FC_LOCAL_STORAGE, updateLocalStorage, isDBExisted } from "../utils/localStorage"
 import { DBInfoType, DBDataType } from "../types/database"
+import { useFetch } from "../hooks/useFetch"
 
 const Home: NextPageWithLayout = () => {
-    const [user, setUser] = useState<User>({ userId: "", userName: "" })
-    const [database, setDatabase] = useState<DBDataType[]>()
-    const [databaseInfo, setDatabaseInfo] = useState<DBInfoType>({ name: "", id: "" })
     const [inputUrl, setInputUrl] = useState<string>("")
-    const [errorMessage, setErrorMessage] = useState<string>("")
-    const [databaseLoading, setDatabaseLoading] = useState(false)
+    const [updatedUrl, setUpdatedUrl] = useState<string>("")
     const [knownDatabase, setKnowDatabase] = useState<DBInfoType[]>([])
     const [isPanelExpand, setPanelExpand] = useState<boolean>(false)
     const [name, setName] = useState("")
     const [description, setDescription] = useState("")
     const [ifFlipped, setIfFlipped] = useState(false)
     const [contentIndex, setContentIndex] = useState<number>(0)
+    const { loading, errorMessage, user, database, databaseInfo, setErrorMessage } = useFetch(updatedUrl)
 
     useEffect(() => {
         localStorageInit(FC_LOCAL_STORAGE)
@@ -35,85 +33,34 @@ const Home: NextPageWithLayout = () => {
         }
     }, [])
 
-    const fetchData = async (database_id: string) => {
-        setDatabaseLoading(true)
-        try {
-            const response = await notion.retreiveUser({ database_id: database_id }) || []
-            const responseDB = await notion.queryDatabase({ database_id: database_id }) || []
-            const filteredDatabase = responseDB && responseDB.data.results.map((data: { properties: { Name: { title: { plain_text: any }[] }; Description: { rich_text: { plain_text: any }[] } } }) => ({
-                name: data.properties.Name.title[0].plain_text,
-                description: data.properties.Description.rich_text[0].plain_text
-            }))
-            return {
-                dbInfo: { name: responseDB.data.databaseTitle, id: database_id },
-                dbContent: filteredDatabase,
-                dbOwner: response.data
-            }
-        } catch (exception) {
-            setDatabaseLoading(false)
-            setErrorMessage("Please check if the database format is valid and none of the field is empty")
+    useEffect(() => {
+        if (database) {
+            setName(database[0].name)
+            setDescription(database[0].description)
+            setContentIndex(0)
         }
-    }
+
+    }, [database])
 
     const handleSubmit = () => {
         setErrorMessage("")
-
         const database_id = getDatabaseId(inputUrl)
-        if (isDBIdValid(database_id)) {
-            if (localStorage.hasOwnProperty(FC_LOCAL_STORAGE)) {
-                if (isDBExisted(database_id)) {
-                    setErrorMessage("The database already exists in the list 👉")
-                } else {
-                    fetchData(database_id).then(
-                        (result) => {
-                            if (result) {
-                                const dbInfo = result.dbInfo
-                                const dbContent = result.dbContent
-                                const dbOwner = result.dbOwner
-                                const dbList = updateLocalStorage(dbInfo)
-
-                                setKnowDatabase(dbList)
-                                setUser(dbOwner)
-                                setDatabase(dbContent)
-                                setDatabaseLoading(false)
-                                setDatabaseInfo(dbInfo)
-                                setName(dbContent[0].name)
-                                setDescription(dbContent[0].description)
-                                setContentIndex(0)
-                                setPanelExpand(true)
-                            }
-                        }
-                    )
-                }
-            }
+        if (isDBExisted(database_id)) {
+            setErrorMessage("The database already exists in the list 👉")
         } else {
-            setErrorMessage("😵 Oops, the url is invalid. Try another url!")
+            setUpdatedUrl(database_id)
+            setPanelExpand(true)
         }
+
     }
 
     const handleUrlChange = (event: { target: { value: SetStateAction<string> } }) => {
         setInputUrl(event.target.value)
     }
     const handleClickDB = (event: any) => {
-        fetchData(event.target.value).then(
-            (result) => {
-                if (result) {
-                    const dbInfo = result.dbInfo
-                    const dbContent = result.dbContent
-                    const dbOwner = result.dbOwner
-                    const dbList = updateLocalStorage(dbInfo)
 
-                    setUser(dbOwner)
-                    setDatabase(dbContent)
-                    setDatabaseLoading(false)
-                    setDatabaseInfo(dbInfo)
-                    setName(dbContent[0].name)
-                    setDescription(dbContent[0].description)
-                    setContentIndex(0)
-                    setPanelExpand(true)
-                }
-            }
-        )
+        setUpdatedUrl(event.target.value)
+        setPanelExpand(true)
     }
 
     const handlePanel = () => {
@@ -192,7 +139,7 @@ const Home: NextPageWithLayout = () => {
                                     <p css={[styles.inputErrorMessage, errorMessage && styles.inputErrorMessageAnimation]}>{errorMessage && errorMessage}</p>
                                     <button
                                         css={styles.submitButton}
-                                        onClick={handleSubmit} >{databaseLoading ? "Loading..." : "Submit"}</button>
+                                        onClick={handleSubmit} >{loading ? "Loading..." : "Submit"}</button>
 
 
                                 </div>
@@ -238,7 +185,7 @@ const Home: NextPageWithLayout = () => {
                             </div>
                         </>
 
-                        : <p css={styles.label}>Not Loaded yet</p> : null
+                        : <p css={styles.label}>{loading ? "Loading..." : "Not Loaded yet"}</p> : null
                 }
             </main>
 
