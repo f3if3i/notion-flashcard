@@ -11,30 +11,19 @@ import { HiArrowCircleLeft } from "react-icons/hi"
 import Card from "../components/Card"
 import { getDatabaseId, isDBIdValid } from "../utils/parseUrl"
 import { localStorageInit, FC_LOCAL_STORAGE, updateLocalStorage, isDBExisted } from "../utils/localStorage"
-
-type DatabaseRow = {
-    name: string,
-    description: string
-}
-
-type DatabaseInfo = {
-    name: string,
-    id: string
-}
+import { DBInfoType, DBDataType } from "../types/database"
+import { useFetch } from "../hooks/useFetch"
 
 const Home: NextPageWithLayout = () => {
-    const [user, setUser] = useState<User>({ userId: "", userName: "" })
-    const [database, setDatabase] = useState<DatabaseRow[]>()
-    const [databaseInfo, setDatabaseInfo] = useState<DatabaseInfo>({ name: "", id: "" })
     const [inputUrl, setInputUrl] = useState<string>("")
-    const [errorMessage, setErrorMessage] = useState<string>("")
-    const [databaseLoading, setDatabaseLoading] = useState(false)
-    const [knownDatabase, setKnowDatabase] = useState<DatabaseInfo[]>([])
+    const [updatedUrl, setUpdatedUrl] = useState<string>("")
+    const [knownDatabase, setKnowDatabase] = useState<DBInfoType[]>([])
     const [isPanelExpand, setPanelExpand] = useState<boolean>(false)
     const [name, setName] = useState("")
     const [description, setDescription] = useState("")
     const [ifFlipped, setIfFlipped] = useState(false)
     const [contentIndex, setContentIndex] = useState<number>(0)
+    const { loading, errorMessage, user, database, databaseInfo, setErrorMessage } = useFetch(updatedUrl)
 
     useEffect(() => {
         localStorageInit(FC_LOCAL_STORAGE)
@@ -44,57 +33,34 @@ const Home: NextPageWithLayout = () => {
         }
     }, [])
 
-    const fetchData = async (database_id: string) => {
-        setDatabaseLoading(true)
-        try {
-            const response = await notion.retreiveUser({ database_id: database_id }) || []
-            const responseDB = await notion.queryDatabase({ database_id: database_id }) || []
-            const filteredDatabase = responseDB && responseDB.data.results.map((data: { properties: { Name: { title: { plain_text: any }[] }; Description: { rich_text: { plain_text: any }[] } } }) => ({
-                name: data.properties.Name.title[0].plain_text,
-                description: data.properties.Description.rich_text[0].plain_text
-            }))
-            setUser(response.data)
-            setDatabase(filteredDatabase)
-            setDatabaseLoading(false)
-            setDatabaseInfo({ name: responseDB.data.databaseTitle, id: database_id })
-            setName(filteredDatabase[0].name)
-            setDescription(filteredDatabase[0].description)
+    useEffect(() => {
+        if (database) {
+            setName(database[0].name)
+            setDescription(database[0].description)
             setContentIndex(0)
-            setPanelExpand(true)
-            return [{ name: responseDB.data.databaseTitle, id: database_id }, filteredDatabase]
-        } catch (exception) {
-            setDatabaseLoading(false)
-            setErrorMessage("Please check if the database format is valid and none of the field is empty")
         }
-    }
+
+    }, [database])
 
     const handleSubmit = () => {
         setErrorMessage("")
-
         const database_id = getDatabaseId(inputUrl)
-        if (isDBIdValid(database_id)) {
-            if (localStorage.hasOwnProperty(FC_LOCAL_STORAGE)) {
-                if (isDBExisted(database_id)) {
-                    setErrorMessage("The database already exists in the list 👉")
-                } else {
-                    fetchData(database_id).then(
-                        (result) => {
-                            const dbList = updateLocalStorage(result![0])
-                            setKnowDatabase(dbList)
-                        }
-                    )
-                }
-            }
+        if (isDBExisted(database_id)) {
+            setErrorMessage("The database already exists in the list 👉")
         } else {
-            setErrorMessage("😵 Oops, the url is invalid. Try another url!")
+            setUpdatedUrl(database_id)
+            setPanelExpand(true)
         }
+
     }
 
     const handleUrlChange = (event: { target: { value: SetStateAction<string> } }) => {
         setInputUrl(event.target.value)
     }
     const handleClickDB = (event: any) => {
-        fetchData(event.target.value)
+
+        setUpdatedUrl(event.target.value)
+        setPanelExpand(true)
     }
 
     const handlePanel = () => {
@@ -173,7 +139,7 @@ const Home: NextPageWithLayout = () => {
                                     <p css={[styles.inputErrorMessage, errorMessage && styles.inputErrorMessageAnimation]}>{errorMessage && errorMessage}</p>
                                     <button
                                         css={styles.submitButton}
-                                        onClick={handleSubmit} >{databaseLoading ? "Loading..." : "Submit"}</button>
+                                        onClick={handleSubmit} >{loading ? "Loading..." : "Submit"}</button>
 
 
                                 </div>
@@ -194,32 +160,34 @@ const Home: NextPageWithLayout = () => {
             </CSSTransition >
             <main css={styles.cardContainer}>
                 {isPanelExpand ?
-                    database ?
-                        <>
+                    loading ?
+                        <p css={styles.label}>Loading</p> :
+                        database ?
+                            <>
 
-                            <div css={styles.flashCardContainer}>
+                                <div css={styles.flashCardContainer}>
 
-                                <Card
-                                    title={name}
-                                    description={description}
-                                    ifFlipped={ifFlipped}
-                                    onClick={handleClick} />
-                            </div>
-                            <div css={styles.flashcardControlContainer}>
-                                <div css={styles.flashCardGeneralInfo}>
-                                    <p>Hi! <span css={styles.underline}>{user && user.userName}</span></p>
-                                    <p>Your are now learning <span css={styles.underline}>{databaseInfo && databaseInfo.name}</span></p>
-
-                                    <p> Progress: <span css={styles.underline}>{contentIndex + 1}</span> / {database.length}</p>
+                                    <Card
+                                        title={name}
+                                        description={description}
+                                        ifFlipped={ifFlipped}
+                                        onClick={handleClick} />
                                 </div>
-                                <button
-                                    css={[styles.submitButton]}
-                                    onClick={handleNextButton}>Next
-                                </button>
-                            </div>
-                        </>
+                                <div css={styles.flashcardControlContainer}>
+                                    <div css={styles.flashCardGeneralInfo}>
+                                        <p>Hi! <span css={styles.underline}>{user && user.userName}</span></p>
+                                        <p>Your are now learning <span css={styles.underline}>{databaseInfo && databaseInfo.name}</span></p>
 
-                        : <p css={styles.label}>Not Loaded yet</p> : null
+                                        <p> Progress: <span css={styles.underline}>{contentIndex + 1}</span> / {database.length}</p>
+                                    </div>
+                                    <button
+                                        css={[styles.submitButton]}
+                                        onClick={handleNextButton}>Next
+                                    </button>
+                                </div>
+                            </>
+
+                            : null : null
                 }
             </main>
 
