@@ -1,7 +1,6 @@
 
 import { css } from "@emotion/react"
 import React, { useEffect, useState } from "react"
-import database from "../../pages/api/database"
 import { User } from "../../pages/api/user"
 import { DBDataType, DBInfoType } from "../../types/database"
 
@@ -56,22 +55,19 @@ const Flashcard = ({ databaseContent, databaseInfo, userInfo }: FlashcardProps) 
 
 
     return (
-        <div>
-            <div css={styles.flashCardContainer}>
-
-                <div
-                    css={styles.card}
-                    onClick={handleClick}
-                >
-                    {ifFlipped ? <p css={styles.description}>{description}</p> : <h2 css={styles.name}>{name}</h2>}
-                </div>
+        <div css={styles.flastCardPanelContainer}>
+            <div
+                css={styles.card}
+                onClick={handleClick}
+            >
+                {ifFlipped ? <p css={styles.description}>{description}</p> : <h2 css={styles.name}>{name}</h2>}
             </div>
             <div css={styles.flashcardControlContainer}>
                 <div css={styles.flashCardGeneralInfo}>
-                    <p>Hi! <span css={styles.underline}>{userInfo && userInfo.userName}</span></p>
-                    <p>Your are now learning <span css={styles.underline}>{databaseInfo && databaseInfo.name}</span></p>
+                    <p>Database created by <span css={styles.underline}>{userInfo && userInfo.userName}</span></p>
+                    <p>And you are now learning <span css={styles.underline}>{databaseInfo && databaseInfo.name}</span></p>
 
-                    <p> Progress: <span css={styles.underline}>{contentIndex + 1}</span> / {database.length}</p>
+                    <p> Progress: <span css={styles.underline}>{contentIndex + 1}</span> / {databaseContent.length}</p>
                 </div>
                 <button
                     css={[styles.submitButton]}
@@ -84,6 +80,17 @@ const Flashcard = ({ databaseContent, databaseInfo, userInfo }: FlashcardProps) 
 }
 
 const styles = {
+    flastCardPanelContainer: css({
+        display: "flex",
+        flexWrap: "nowrap",
+        flexDirection: "row",
+        textOverflow: "ellipsis",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100%",
+        padding: "26px",
+        width: "100%"
+    }),
     flashCardGeneralInfo: css({
     }),
     flashcardControlContainer: css({
@@ -93,11 +100,6 @@ const styles = {
         fontFamily: "'Kanit', serif",
         fontWeight: "400",
         padding: "20px",
-    }),
-    flashCardContainer: css({
-        width: "76%",
-        height: "100%",
-        padding: "18px"
     }),
     underline: css({
         textDecoration: "rgba(252, 186, 3) wavy underline"
@@ -110,15 +112,15 @@ const styles = {
         textDecoration: "none",
         border: "1px solid #eaeaea",
         borderRadius: "10px",
-        maxWidth: "800px",
+        width: "75%",
         height: "100%",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
         textOverflow: "ellipsis",
-        overflow: "hidden",
         backgroundColor: "rgba(255, 255, 255, 0.319)",
-        cursor: "pointer"
+        cursor: "pointer",
+        overflowY: "hidden"
     }),
     name: css({
         margin: "0 0 1rem 0",
