@@ -19,10 +19,6 @@ const Home: NextPageWithLayout = () => {
     const [updatedUrl, setUpdatedUrl] = useState<string>("")
     const [knownDatabase, setKnowDatabase] = useState<DBInfoType[]>([])
     const [isPanelExpand, setPanelExpand] = useState<boolean>(false)
-    const [name, setName] = useState("")
-    const [description, setDescription] = useState("")
-    const [ifFlipped, setIfFlipped] = useState(false)
-    const [contentIndex, setContentIndex] = useState<number>(0)
     const { loading, errorMessage, user, database, databaseInfo, setErrorMessage } = useFetch(updatedUrl)
 
     useEffect(() => {
@@ -32,15 +28,6 @@ const Home: NextPageWithLayout = () => {
             dbList && setKnowDatabase(dbList)
         }
     }, [])
-
-    useEffect(() => {
-        if (database) {
-            setName(database[0].name)
-            setDescription(database[0].description)
-            setContentIndex(0)
-        }
-
-    }, [database])
 
     const handleSubmit = () => {
         setErrorMessage("")
@@ -65,37 +52,6 @@ const Home: NextPageWithLayout = () => {
 
     const handlePanel = () => {
         setPanelExpand((prev) => !prev)
-    }
-
-    const flipCard = () => {
-        setIfFlipped((prev) => !prev)
-    }
-
-    const setNewCard = (index: number) => {
-        if (database) {
-            setName(database[index].name)
-            setDescription(database[index].description)
-        }
-    }
-
-    const indexIncrement = () =>
-        setContentIndex((prev) => prev + 1)
-
-
-    const handleClick = () => {
-        flipCard()
-    }
-
-    const handleNextButton = () => {
-        if (database) {
-            if (contentIndex < database.length - 1) {
-                indexIncrement()
-                setIfFlipped(false)
-                setNewCard(contentIndex + 1)
-            } else {
-                setName("Congrats!!")
-            }
-        }
     }
 
     const nodeRef = useRef<HTMLDivElement>(null)
@@ -159,36 +115,11 @@ const Home: NextPageWithLayout = () => {
                 }
             </CSSTransition >
             <main css={styles.cardContainer}>
-                {isPanelExpand ?
-                    loading ?
-                        <p css={styles.label}>Loading</p> :
-                        database ?
-                            <>
-
-                                <div css={styles.flashCardContainer}>
-
-                                    <Card
-                                        title={name}
-                                        description={description}
-                                        ifFlipped={ifFlipped}
-                                        onClick={handleClick} />
-                                </div>
-                                <div css={styles.flashcardControlContainer}>
-                                    <div css={styles.flashCardGeneralInfo}>
-                                        <p>Hi! <span css={styles.underline}>{user && user.userName}</span></p>
-                                        <p>Your are now learning <span css={styles.underline}>{databaseInfo && databaseInfo.name}</span></p>
-
-                                        <p> Progress: <span css={styles.underline}>{contentIndex + 1}</span> / {database.length}</p>
-                                    </div>
-                                    <button
-                                        css={[styles.submitButton]}
-                                        onClick={handleNextButton}>Next
-                                    </button>
-                                </div>
-                            </>
-
-                            : null : null
+                {isPanelExpand &&
+                    loading ? <p css={styles.label}>Loading</p> :
+                    database ? <Card databaseContent={database} databaseInfo={databaseInfo} userInfo={user} /> : <p css={styles.label}>Nothing loaed yet</p>
                 }
+
             </main>
 
         </div >
@@ -349,24 +280,24 @@ const styles = {
         flexWrap: "wrap",
         gap: "18px",
     }),
-    flashCardGeneralInfo: css({
-    }),
-    flashcardControlContainer: css({
-        display: "flex",
-        flexDirection: "column",
-        fontSize: "18px",
-        fontFamily: "'Kanit', serif",
-        fontWeight: "400",
-        padding: "20px",
-    }),
-    flashCardContainer: css({
-        width: "76%",
-        height: "100%",
-        padding: "18px"
-    }),
-    underline: css({
-        textDecoration: "rgba(252, 186, 3) wavy underline"
-    })
+    // flashCardGeneralInfo: css({
+    // }),
+    // flashcardControlContainer: css({
+    //     display: "flex",
+    //     flexDirection: "column",
+    //     fontSize: "18px",
+    //     fontFamily: "'Kanit', serif",
+    //     fontWeight: "400",
+    //     padding: "20px",
+    // }),
+    // flashCardContainer: css({
+    //     width: "76%",
+    //     height: "100%",
+    //     padding: "18px"
+    // }),
+    // underline: css({
+    //     textDecoration: "rgba(252, 186, 3) wavy underline"
+    // })
 }
 
 
