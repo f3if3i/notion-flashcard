@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import notion from "../lib/notion"
 import { User } from "../pages/api/user"
 import { DBDataType, DBInfoType } from "../types/database"
+import { updateLocalStorage } from "../utils/localStorage"
 import { isDBIdValid } from "../utils/parseUrl"
 
 export const useFetch = (id: string) => {
@@ -44,6 +45,7 @@ export const useFetch = (id: string) => {
                 setErrorMessage("")
                 const result = await fetchData(id)
                 if (result) {
+                    updateLocalStorage(result.dbInfo)
                     setUser(result.dbOwner)
                     setDatabase(result.dbContent)
                     setDatabaseInfo(result.dbInfo)
