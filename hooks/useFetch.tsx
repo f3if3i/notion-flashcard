@@ -20,7 +20,7 @@ export const useFetch = (id: string) => {
             setErrorMessage("😵 Oops, the url is invalid. Try another url!")
         }
         try {
-            const response = await notion.retreiveUser({ database_id: id }) || []
+            const response = await notion.retrieveUser({ database_id: id }) || []
             const responseDB = await notion.queryDatabase({ database_id: id }) || []
             const filteredDatabase = responseDB && responseDB.data.results.map((data: { properties: { Name: { title: { plain_text: any }[] }; Description: { rich_text: { plain_text: any }[] } } }) => ({
                 name: data.properties.Name.title[0].plain_text,
