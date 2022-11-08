@@ -1,4 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+// deprecated
 import type { NextApiRequest, NextApiResponse } from "next"
 import { Client } from "@notionhq/client"
 import { DatabaseObjectResponse } from "@notionhq/client/build/src/api-endpoints"

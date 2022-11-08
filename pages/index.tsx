@@ -49,7 +49,12 @@ const Home: NextPageWithLayout = () => {
             const dbList = JSON.parse(localStorage.getItem(FC_LOCAL_STORAGE) || "[]")
             dbList && setKnowDatabase(dbList)
         }
-    }, [databaseInfo])
+        if (database && !loading) {
+            setPanelExpand(true)
+        }
+    }, [databaseInfo, database, loading])
+
+
 
     const handleSubmit = () => {
         setErrorMessage("")
@@ -62,7 +67,6 @@ const Home: NextPageWithLayout = () => {
             setErrorMessage("The database already exists in the list 👉")
         } else {
             setUpdatedUrl(database_id)
-            setPanelExpand(true)
         }
     }
 
@@ -73,7 +77,6 @@ const Home: NextPageWithLayout = () => {
     }
     const handleClickDB = (event: any) => {
         setUpdatedUrl(event.target.value)
-        setPanelExpand(true)
     }
 
     const handlePanel = () => {
