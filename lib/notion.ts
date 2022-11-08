@@ -7,7 +7,7 @@ type DBIDDataType = {
 }
 
 export default class notion {
-    static retreiveUser(data: DBIDDataType) {
+    static retrieveUser(data: DBIDDataType) {
         return request ({
             url: `${API_ENDPOINT}/user`,
             method: "POST",

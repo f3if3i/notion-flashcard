@@ -3,7 +3,7 @@ export const getDatabaseId = (url: string) => {
         const id = url.replace("https://www.notion.so/", "").split("/")[1].split("?")[0]
         return id
     } catch (error) {
-        throw new Error("The url is invalid")
+        return "error"
     }
 }
 

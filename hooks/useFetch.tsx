@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import notion from "../lib/notion"
 import { User } from "../pages/api/user"
 import { DBDataType, DBInfoType } from "../types/database"
+import { updateLocalStorage } from "../utils/localStorage"
 import { isDBIdValid } from "../utils/parseUrl"
 
 export const useFetch = (id: string) => {
@@ -20,7 +21,7 @@ export const useFetch = (id: string) => {
             setErrorMessage("😵 Oops, the url is invalid. Try another url!")
         }
         try {
-            const response = await notion.retreiveUser({ database_id: id }) || []
+            const response = await notion.retrieveUser({ database_id: id }) || []
             const responseDB = await notion.queryDatabase({ database_id: id }) || []
             const filteredDatabase = responseDB && responseDB.data.results.map((data: { properties: { Name: { title: { plain_text: any }[] }; Description: { rich_text: { plain_text: any }[] } } }) => ({
                 name: data.properties.Name.title[0].plain_text,
@@ -44,6 +45,7 @@ export const useFetch = (id: string) => {
                 setErrorMessage("")
                 const result = await fetchData(id)
                 if (result) {
+                    updateLocalStorage(result.dbInfo)
                     setUser(result.dbOwner)
                     setDatabase(result.dbContent)
                     setDatabaseInfo(result.dbInfo)
