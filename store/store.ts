@@ -1,11 +1,12 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit"
-
-import counterReducer from "./features/counter/counterSlice"
+import databaseReducer from "../store/databaseSlice"
+import userReducer from "../store/userSlice"
 
 export function makeStore() {
     return configureStore({
         reducer: { 
             database: databaseReducer,
+            user: userReducer
         },
     })
 }
