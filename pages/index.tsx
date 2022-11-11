@@ -32,7 +32,6 @@ const Home: NextPageWithLayout = () => {
         errorMessage,
         user,
         database,
-        databaseInfo,
         setErrorMessage,
     } = useFetch(updatedUrl)
 
@@ -49,10 +48,10 @@ const Home: NextPageWithLayout = () => {
             const dbList = JSON.parse(localStorage.getItem(FC_LOCAL_STORAGE) || "[]")
             dbList && setKnowDatabase(dbList)
         }
-        if (database && !loading) {
+        if (database.contents.length > 0 && !loading) {
             setPanelExpand(true)
         }
-    }, [databaseInfo, database, loading])
+    }, [database, loading])
 
 
 
@@ -170,10 +169,10 @@ const Home: NextPageWithLayout = () => {
             <main css={styles.cardContainer}>
                 {isPanelExpand && loading ? (
                     <p css={styles.label}>Loading</p>
-                ) : database ? (
+                ) : database.contents.length > 0 ? (
                     <Card
-                        databaseContent={database}
-                        databaseInfo={databaseInfo}
+                        databaseContent={database.contents}
+                        databaseInfo={{ id: database.id, name: database.name }}
                         userInfo={user}
                     />
                 ) : (

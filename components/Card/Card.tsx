@@ -16,9 +16,9 @@ const Flashcard = ({ databaseContent, databaseInfo, userInfo }: FlashcardProps) 
     const [contentIndex, setContentIndex] = useState<number>(0)
 
     useEffect(() => {
-        if (databaseContent) {
-            setName(databaseContent[0].name)
-            setDescription(databaseContent[0].description)
+        if (databaseContent.length > 0) {
+            databaseContent[0].name && setName(databaseContent[0].name)
+            databaseContent[0].description && setDescription(databaseContent[0].description)
             setContentIndex(0)
         }
 
