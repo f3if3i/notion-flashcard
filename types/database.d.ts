@@ -7,3 +7,9 @@ export type DBDataType = {
     name: string,
     description: string
 }
+
+export type DatabaseType = {
+    id: string,
+    name: string,
+    contents: DBDataType[]
+}

@@ -16,9 +16,9 @@ const Flashcard = ({ databaseContent, databaseInfo, userInfo }: FlashcardProps) 
     const [contentIndex, setContentIndex] = useState<number>(0)
 
     useEffect(() => {
-        if (databaseContent) {
-            setName(databaseContent[0].name)
-            setDescription(databaseContent[0].description)
+        if (databaseContent.length > 0) {
+            databaseContent[0].name && setName(databaseContent[0].name)
+            databaseContent[0].description && setDescription(databaseContent[0].description)
             setContentIndex(0)
         }
 
@@ -55,7 +55,7 @@ const Flashcard = ({ databaseContent, databaseInfo, userInfo }: FlashcardProps) 
 
 
     return (
-        <div css={styles.flastCardPanelContainer}>
+        <div css={styles.flashCardPanelContainer}>
             <div
                 css={styles.card}
                 onClick={handleClick}
@@ -80,7 +80,7 @@ const Flashcard = ({ databaseContent, databaseInfo, userInfo }: FlashcardProps) 
 }
 
 const styles = {
-    flastCardPanelContainer: css({
+    flashCardPanelContainer: css({
         display: "flex",
         flexWrap: "nowrap",
         flexDirection: "row",

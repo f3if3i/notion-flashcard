@@ -1,16 +1,25 @@
 import { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+// import { useSelector } from "react-redux"
 import notion from "../lib/notion"
-import { User } from "../pages/api/user"
-import { DBDataType, DBInfoType } from "../types/database"
+import { selectDatabase, setDatabaseState } from "../store/databaseSlice"
+// import { User } from "../pages/api/user"
+import { selectUser, setUserState } from "../store/userSlice"
+// import { DBDataType, DBInfoType } from "../types/database"
 import { updateLocalStorage } from "../utils/localStorage"
 import { isDBIdValid } from "../utils/parseUrl"
 
 export const useFetch = (id: string) => {
     const [loading, setLoading] = useState(false)
     const [errorMessage, setErrorMessage] = useState<string>("")
-    const [database, setDatabase] = useState<DBDataType[]>()
-    const [databaseInfo, setDatabaseInfo] = useState<DBInfoType>({ name: "", id: "" })
-    const [user, setUser] = useState<User>({ userId: "", userName: "" })
+    // const [database, setDatabase] = useState<DBDataType[]>()
+    // const [databaseInfo, setDatabaseInfo] = useState<DBInfoType>({ name: "", id: "" })
+
+    // useState -> redux
+    // const [user, setUser] = useState<User>({ userId: "", userName: "" })
+    const database = useSelector(selectDatabase)
+    const user = useSelector(selectUser)
+    const dispatch = useDispatch()
 
     const fetchData = async (id: string) => {
         if (!id) {
@@ -46,14 +55,13 @@ export const useFetch = (id: string) => {
                 const result = await fetchData(id)
                 if (result) {
                     updateLocalStorage(result.dbInfo)
-                    setUser(result.dbOwner)
-                    setDatabase(result.dbContent)
-                    setDatabaseInfo(result.dbInfo)
+                    dispatch(setUserState(result.dbOwner))
+                    dispatch(setDatabaseState({ id: result.dbInfo.id, name: result.dbInfo.name, contents: result.dbContent }))
                 }
             }
         )()
 
-    }, [id])
+    }, [dispatch, id])
 
-    return { loading, errorMessage, user, database, databaseInfo, setErrorMessage }
+    return { loading, errorMessage, user, database, setErrorMessage }
 }
