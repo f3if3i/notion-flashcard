@@ -55,7 +55,7 @@ const Flashcard = ({ databaseContent, databaseInfo, userInfo }: FlashcardProps) 
 
 
     return (
-        <div css={styles.flastCardPanelContainer}>
+        <div css={styles.flashCardPanelContainer}>
             <div
                 css={styles.card}
                 onClick={handleClick}
@@ -80,7 +80,7 @@ const Flashcard = ({ databaseContent, databaseInfo, userInfo }: FlashcardProps) 
 }
 
 const styles = {
-    flastCardPanelContainer: css({
+    flashCardPanelContainer: css({
         display: "flex",
         flexWrap: "nowrap",
         flexDirection: "row",
