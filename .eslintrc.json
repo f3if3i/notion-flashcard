@@ -1,24 +1,54 @@
 {
-  "extends": "next/core-web-vitals",
-	"env": {
-		"browser": true,
-		"es2021": true,
-		"node": true
-	},
-	"rules": {
-		"indent": ["error", 4, { "SwitchCase": 1 }],
-		"linebreak-style": ["error", "unix"],
-		"quotes": ["error", "double"],
-		"semi": ["error", "never"],
-		"no-var": "error",
-		"no-console": "warn",
-		"object-curly-spacing": ["error", "always"],
-		"no-unused-vars": [2, {
-				"vars": "all",
-				"args": "none"
-		}],
-		"react/jsx-indent": ["error", 4],
-		"react/jsx-indent-props": ["error", 4],
-		"react/react-in-jsx-scope": "off"
-	}
+ "extends": [
+  "next/core-web-vitals",
+  "plugin:storybook/recommended"
+ ],
+ "env": {
+  "browser": true,
+  "es2021": true,
+  "node": true
+ },
+ "rules": {
+  "indent": [
+   "error",
+   4,
+   {
+    "SwitchCase": 1
+   }
+  ],
+  "linebreak-style": [
+   "error",
+   "unix"
+  ],
+  "quotes": [
+   "error",
+   "double"
+  ],
+  "semi": [
+   "error",
+   "never"
+  ],
+  "no-var": "error",
+  "no-console": "warn",
+  "object-curly-spacing": [
+   "error",
+   "always"
+  ],
+  "no-unused-vars": [
+   2,
+   {
+    "vars": "all",
+    "args": "none"
+   }
+  ],
+  "react/jsx-indent": [
+   "error",
+   4
+  ],
+  "react/jsx-indent-props": [
+   "error",
+   4
+  ],
+  "react/react-in-jsx-scope": "off"
+ }
 }
