@@ -40,12 +40,10 @@ const Flashcard = ({ databaseContent, databaseInfo, userInfo }: FlashcardProps) 
     const indexIncrement = () =>
         setContentIndex((prev) => prev + 1)
 
-
     const handleClick = () => {
         flipCard()
     }
     const handleNextButton = () => {
-
         if (contentIndex < databaseContent.length - 1) {
             indexIncrement()
             setIfFlipped(false)
@@ -53,9 +51,7 @@ const Flashcard = ({ databaseContent, databaseInfo, userInfo }: FlashcardProps) 
         } else {
             setName("Congrats!!")
         }
-
     }
-
 
     return (
         <div css={styles.flashCardPanelContainer}>
@@ -78,7 +74,6 @@ const Flashcard = ({ databaseContent, databaseInfo, userInfo }: FlashcardProps) 
                 </button>
             </div>
         </div>
-
     )
 }
 
@@ -158,4 +153,3 @@ const getStyles = (theme: any) => {
 }
 
 export default Flashcard
-
