@@ -9,7 +9,7 @@ import React, {
     useState,
 } from "react"
 import type { NextPageWithLayout } from "./_app"
-import { css } from "@emotion/react"
+import { css, useTheme } from "@emotion/react"
 import { CSSTransition } from "react-transition-group"
 import { HiArrowCircleLeft } from "react-icons/hi"
 import Card from "../components/Card"
@@ -34,6 +34,9 @@ const Home: NextPageWithLayout = () => {
         database,
         setErrorMessage,
     } = useFetch(updatedUrl)
+
+    const theme = useTheme()
+    const styles = getStyles(theme)
 
     useEffect(() => {
         localStorageInit(FC_LOCAL_STORAGE)
@@ -60,7 +63,7 @@ const Home: NextPageWithLayout = () => {
         const database_id = getDatabaseId(inputUrl)
         if (!isDBIdValid(database_id)) {
             setErrorMessage("The url is invalid")
-            return 
+            return
         }
         if (isDBIdValid(database_id) && isDBExisted(database_id)) {
             setErrorMessage("The database already exists in the list 👉")
@@ -70,8 +73,8 @@ const Home: NextPageWithLayout = () => {
     }
 
     const handleUrlChange = (event: {
-    target: { value: SetStateAction<string> };
-  }) => {
+        target: { value: SetStateAction<string> };
+    }) => {
         setInputUrl(event.target.value)
     }
     const handleClickDB = (event: any) => {
@@ -183,163 +186,165 @@ const Home: NextPageWithLayout = () => {
     )
 }
 
-const styles = {
-    container: css({
-        display: "grid",
-        gridTemplateColumns: "1fr 1fr 1fr 1fr",
-        gridTemplateRows: "480px",
-        width: "1200px",
-        gap: "28px",
-        backgroundColor: "#f5f5f5",
-        padding: "48px",
-    }),
-    panelContainer: css({
-        gridColumnStart: 1,
-        gridColumnEnd: 4,
-        backgroundColor: "#EEEBE4",
-        gridRowStart: 1,
-        gridRowEnd: 2,
-        zIndex: 10,
-        borderRadius: "28px",
-        transitionDuration: "2s",
-        transitionProperty: "all",
-        transform: "translateY(36px)",
-        minHeight: "350px",
-        display: "flex",
-        boxShadow:
-      "rgba(252, 186, 3, 0.4) 5px 5px, rgba(252, 186, 3, 0.3) 10px 10px, rgba(252, 186, 3, 0.2) 15px 15px, rgba(245, 188, 0, 0.1) 20px 20px, rgba(245, 188, 0, 0.05) 25px 25px;",
-    }),
-    panelContent: css({
-        display: "flex",
-        borderRadius: "28px",
-        justifyContent: "space-evenly",
-        alignItems: "center",
-        flexWrap: "nowrap",
-        width: "100%",
-        padding: "26px",
-        gap: "28px",
-        overflow: "hidden",
-    }),
-    panelCollapseContainer: css({
-        fontSize: "16px",
-        fontFamily: "'Kanit', serif",
-        fontWeight: "400",
-        padding: "20px",
-        transition: "all 2s ease",
-        marginLeft: "20px",
-    }),
-    cardContainer: css({
-        gridColumnStart: 2,
-        gridColumnEnd: 5,
-        backgroundColor: "###b0b0b0",
-        gridRowStart: 1,
-        gridRowEnd: 2,
-        boxShadow: "rgba(0, 0, 0, 0.18) 0px 2px 4px",
-        borderRadius: "28px",
-        display: "flex",
-        flexWrap: "nowrap",
-        flexDirection: "row",
-        textOverflow: "ellipsis",
-        justifyContent: "center",
-        alignItems: "center",
-    }),
-    dbInputContainer: css({
-        minWidth: "420px",
-    }),
-    closePanelButton: css({
-        position: "absolute",
-        right: "6px",
-        top: "6px",
-        backgroundColor: "transparent",
-        borderStyle: "none",
-        fontSize: "46px",
-        transition: "transform 1.8s ease",
-        zIndex: 30,
-    }),
-    title: css({
-        fontSize: "48px",
-        fontFamily: "'Merriweather', serif",
-        fontWeight: "700",
-        marginBottom: "48px",
-    }),
-    inputField: css({
-        padding: "6px 16px",
-        borderRadius: "18px",
-        width: "100%",
-        fontSize: "16px",
-        fontFamily: "'Kanit', serif",
-        fontWeight: "400",
-        marginTop: "12px",
-    }),
-    label: css({
-        fontFamily: "'Kanit', serif",
-        fontWeight: "400",
-        fontSize: "18px",
-        margin: "0 12px 0 0",
-    }),
-    submitButton: css({
-        borderRadius: "28px",
-        color: "rgba(252, 186, 3)",
-        backgroundColor: "black",
-        padding: "6px 16px",
-        border: "solid 2px black",
-        fontSize: "16px",
-        fontFamily: "'Kanit', serif",
-        fontWeight: "600",
-        transition: "all 1s ease",
-        ":hover": {
-            borderRight: "solid 2px black",
-            borderBottom: "solid 4px black",
-        },
-        alignSelf: "center",
-        margin: "8px 28px 34px 28px",
-        width: "120px",
-    }),
-    panelInputContainer: css({
-        display: "flex",
-        flexDirection: "column",
-        overflow: "hidden",
-    }),
-    inputErrorMessage: css({
-        transform: "translateX(-100%)",
-        transition: "all 2s ease",
-        fontFamily: "'Kanit', serif",
-        fontWeight: "400",
-        fontSize: "16px",
-        color: "#EE4521",
-        margin: "8px 0 8px 0",
-    }),
-    inputErrorMessageAnimation: css({
-        transform: "translateX(0)",
-    }),
-    dbInfoContainer: css({
-        marginTop: "28px",
-        alignSelf: "flex-start",
-    }),
-    dbButton: css({
-        padding: "12px 28px",
-        borderRadius: "12px",
-        borderStyle: "none",
-        background: "rgba(252, 186, 3)",
-        fontSize: "18px",
-        fontFamily: "'Kanit', serif",
-        fontWeight: "600",
-        ":hover": {
-            transform: "scale(1.03)",
-        },
-        transition: "transform .2s",
-    }),
-    dbListContainer: css({
-        marginTop: "20px",
-        display: "flex",
-        flexWrap: "wrap",
-        gap: "18px",
-    }),
+const getStyles = (theme: any) => {
+    return ({
+        container: css({
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr 1fr 1fr",
+            gridTemplateRows: "480px",
+            width: "1200px",
+            gap: "28px",
+            backgroundColor: theme.colors.grey[100],
+            padding: "48px",
+        }),
+        panelContainer: css({
+            gridColumnStart: 1,
+            gridColumnEnd: 4,
+            backgroundColor: theme.colors.grey[200],
+            gridRowStart: 1,
+            gridRowEnd: 2,
+            zIndex: 10,
+            borderRadius: "28px",
+            transitionDuration: "2s",
+            transitionProperty: "all",
+            transform: "translateY(36px)",
+            minHeight: "350px",
+            display: "flex",
+            boxShadow:
+                `${theme.colors.accentShadow[500]} 5px 5px, ${theme.colors.accentShadow[400]} 10px 10px, ${theme.colors.accentShadow[300]} 15px 15px, ${theme.colors.accentShadow[200]} 20px 20px, ${theme.colors.accentShadow[100]} 25px 25px;`,
+        }),
+        panelContent: css({
+            display: "flex",
+            borderRadius: "28px",
+            justifyContent: "space-evenly",
+            alignItems: "center",
+            flexWrap: "nowrap",
+            width: "100%",
+            padding: "26px",
+            gap: "28px",
+            overflow: "hidden",
+        }),
+        panelCollapseContainer: css({
+            fontSize: "16px",
+            fontFamily: "'Kanit', serif",
+            fontWeight: "400",
+            padding: "20px",
+            transition: "all 2s ease",
+            marginLeft: "20px",
+        }),
+        cardContainer: css({
+            gridColumnStart: 2,
+            gridColumnEnd: 5,
+            backgroundColor: theme.colors.grey[100],
+            gridRowStart: 1,
+            gridRowEnd: 2,
+            boxShadow: `${theme.colors.shadow[100]} 0px 2px 4px`,
+            borderRadius: "28px",
+            display: "flex",
+            flexWrap: "nowrap",
+            flexDirection: "row",
+            textOverflow: "ellipsis",
+            justifyContent: "center",
+            alignItems: "center",
+        }),
+        dbInputContainer: css({
+            minWidth: "420px",
+        }),
+        closePanelButton: css({
+            position: "absolute",
+            right: "6px",
+            top: "6px",
+            backgroundColor: "transparent",
+            borderStyle: "none",
+            fontSize: "46px",
+            transition: "transform 1.8s ease",
+            zIndex: 30,
+        }),
+        title: css({
+            fontSize: "48px",
+            fontFamily: "'Merriweather', serif",
+            fontWeight: "700",
+            marginBottom: "48px",
+        }),
+        inputField: css({
+            padding: "6px 16px",
+            borderRadius: "18px",
+            width: "100%",
+            fontSize: "16px",
+            fontFamily: "'Kanit', serif",
+            fontWeight: "400",
+            marginTop: "12px",
+        }),
+        label: css({
+            fontFamily: "'Kanit', serif",
+            fontWeight: "400",
+            fontSize: "18px",
+            margin: "0 12px 0 0",
+        }),
+        submitButton: css({
+            borderRadius: "28px",
+            color: theme.colors.secondary.main,
+            backgroundColor: theme.colors.black.main,
+            padding: "6px 16px",
+            border: `solid 2px ${theme.colors.black.main}`,
+            fontSize: "16px",
+            fontFamily: "'Kanit', serif",
+            fontWeight: "600",
+            transition: "all 1s ease",
+            ":hover": {
+                borderRight: `solid 2px ${theme.colors.black.main}`,
+                borderBottom: `solid 4px ${theme.colors.black.main}`,
+            },
+            alignSelf: "center",
+            margin: "8px 28px 34px 28px",
+            width: "120px",
+        }),
+        panelInputContainer: css({
+            display: "flex",
+            flexDirection: "column",
+            overflow: "hidden",
+        }),
+        inputErrorMessage: css({
+            transform: "translateX(-100%)",
+            transition: "all 2s ease",
+            fontFamily: "'Kanit', serif",
+            fontWeight: "400",
+            fontSize: "16px",
+            color: theme.colors.caution.main,
+            margin: "8px 0 8px 0",
+        }),
+        inputErrorMessageAnimation: css({
+            transform: "translateX(0)",
+        }),
+        dbInfoContainer: css({
+            marginTop: "28px",
+            alignSelf: "flex-start",
+        }),
+        dbButton: css({
+            padding: "12px 28px",
+            borderRadius: "12px",
+            borderStyle: "none",
+            background: theme.colors.secondary.main,
+            fontSize: "18px",
+            fontFamily: "'Kanit', serif",
+            fontWeight: "600",
+            ":hover": {
+                transform: "scale(1.03)",
+            },
+            transition: "transform .2s",
+        }),
+        dbListContainer: css({
+            marginTop: "20px",
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "18px",
+        }),
+    })
 }
 
 const panelAppearContentStyles: { [state: string]: React.CSSProperties } = {
     entering: {
-    // Fix styles
+        // Fix styles
         width: "fill-available",
         display: "flex",
         opacity: 1,
@@ -347,7 +352,7 @@ const panelAppearContentStyles: { [state: string]: React.CSSProperties } = {
         alignItems: "center",
     },
     entered: {
-    // Fix styles
+        // Fix styles
         width: "fill-available",
         display: "flex",
         opacity: 1,
@@ -396,7 +401,7 @@ const panelContentTransitionStyles: { [state: string]: React.CSSProperties } = {
 }
 
 const panelCloseButtonTransitionStyles: {
-  [state: string]: React.CSSProperties;
+    [state: string]: React.CSSProperties;
 } = {
     entering: {
         transform: "rotateZ(180deg)",
