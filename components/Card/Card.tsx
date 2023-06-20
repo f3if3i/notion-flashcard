@@ -3,6 +3,7 @@ import { css, useTheme } from "@emotion/react"
 import React, { useEffect, useState } from "react"
 import { User } from "../../pages/api/user"
 import { DBDataType, DBInfoType } from "../../types/database"
+import Button from "../atoms/Button/Button"
 
 type FlashcardProps = {
     databaseContent: DBDataType[],
@@ -68,12 +69,11 @@ const Flashcard = ({ databaseContent, databaseInfo, userInfo }: FlashcardProps) 
 
                     <p> Progress: <span css={styles.underline}>{contentIndex + 1}</span> / {databaseContent.length}</p>
                 </div>
-                <button
-                    css={[styles.submitButton]}
-                    onClick={handleNextButton}>Next
-                </button>
+                <Button
+                    onClick={handleNextButton}
+                    label="Next" />
             </div>
-        </div>
+        </div >
     )
 }
 
@@ -130,24 +130,6 @@ const getStyles = (theme: any) => {
             fontSize: "22px",
             lineHeight: 1.5,
             textOverflow: "ellipsis"
-        }),
-        submitButton: css({
-            borderRadius: "28px",
-            color: theme.colors.secondary.main,
-            backgroundColor: theme.colors.black.main,
-            padding: "6px 16px",
-            border: `solid 2px ${theme.colors.black.main}`,
-            fontSize: "16px",
-            fontFamily: "'Kanit', serif",
-            fontWeight: "600",
-            transition: "all 1s ease",
-            ":hover": {
-                borderRight: `solid 2px ${theme.colors.black.main}`,
-                borderBottom: `solid 4px ${theme.colors.black.main}`,
-            },
-            alignSelf: "center",
-            margin: "8px 28px 34px 28px",
-            width: "120px"
         }),
     })
 }
