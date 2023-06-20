@@ -1,5 +1,5 @@
+// npm run scaffold:component -- --name=Momo --category=atoms
 import { existsSync, mkdirSync, writeFileSync } from "fs"
-
 import {
     createComponentTemplate,
     createIndexTemplate,
@@ -18,9 +18,8 @@ const getArgValue = (arg: string) => {
             "use --name=ComponentName syntax"
         )
     }
-    console.log("equalIndex", equalIndex)
+
     const type = arg.slice(2, equalIndex)
-    console.log("type", type)
     if (type.length === 0) {
         throw new Error("arguments missing")
     }
@@ -38,8 +37,6 @@ const getArgValue = (arg: string) => {
     if (value.length === 0) {
         throw new Error("No arguments")
     }
-    console.log("type", type)
-    console.log("value", value)
     return value
 }
 
