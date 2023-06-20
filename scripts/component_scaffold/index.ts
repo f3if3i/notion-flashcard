@@ -2,10 +2,11 @@ import { existsSync, mkdirSync, writeFileSync } from "fs"
 
 import {
     createComponentTemplate,
-    createIndexTemplate
+    createIndexTemplate,
+    createStoryTemplate
 } from "./templates"
 
-const getArgValue = (arg: string): { name: string; value: string } => {
+const getArgValue = (arg: string) => {
     const initStr = arg.slice(0, 2)
     if (initStr !== "--") {
         throw new Error("please input --")
@@ -17,13 +18,19 @@ const getArgValue = (arg: string): { name: string; value: string } => {
             "use --name=ComponentName syntax"
         )
     }
-    const name = arg.slice(2, equalIndex)
-    if (name.length === 0) {
+    console.log("equalIndex", equalIndex)
+    const type = arg.slice(2, equalIndex)
+    console.log("type", type)
+    if (type.length === 0) {
         throw new Error("arguments missing")
     }
-    if (name !== "name") {
+    let isTypeNameValid = false
+    if (type === "name" || "category") {
+        isTypeNameValid = true
+    }
+    if (!isTypeNameValid) {
         throw new Error(
-            "use --name=ComponentName syntax"
+            "use --name=Sample or --category=atoms syntax"
         )
     }
 
@@ -31,12 +38,13 @@ const getArgValue = (arg: string): { name: string; value: string } => {
     if (value.length === 0) {
         throw new Error("No arguments")
     }
-
-    return { name, value }
+    console.log("type", type)
+    console.log("value", value)
+    return value
 }
 
 const validateArgs = (args: string[]) => {
-    if (args.length !== 4) {
+    if (args.length !== 5) {
         throw new Error(
             "The number of arguments is not correct"
         )
@@ -47,23 +55,35 @@ const main = () => {
     try {
         validateArgs(process.argv)
         const componentName = getArgValue(process.argv[3])
+        const componentCategory = getArgValue(process.argv[4])
 
-        const path = `components/${componentName.value}`
-        if (!existsSync(path)) {
-            mkdirSync(path, {
+
+        const componentPath = `components/${componentCategory}/${componentName}`
+        const storyPath = `stories/${componentCategory}`
+        if (!existsSync(componentPath)) {
+            mkdirSync(componentPath, {
+                recursive: true
+            })
+        }
+        if (!existsSync(storyPath)) {
+            mkdirSync(storyPath, {
                 recursive: true
             })
         }
         writeFileSync(
-            `${path}/${componentName.value}.tsx`,
-            createComponentTemplate(componentName.value)
+            `${componentPath}/${componentName}.tsx`,
+            createComponentTemplate(componentName)
         )
         writeFileSync(
-            `${path}/index.ts`,
-            createIndexTemplate(componentName.value)
+            `${componentPath}/index.ts`,
+            createIndexTemplate(componentName)
+        )
+        writeFileSync(
+            `${storyPath}/${componentName}.stories.tsx`,
+            createStoryTemplate(componentName, componentCategory)
         )
     } catch (error) {
-    // eslint-disable-next-line no-console
+        // eslint-disable-next-line no-console
         console.error(error)
     }
 }
