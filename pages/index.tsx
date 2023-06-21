@@ -21,6 +21,7 @@ import {
 } from "../utils/localStorage"
 import { DBInfoType } from "../types/database"
 import { useFetch } from "../hooks/useFetch"
+import Button from "../components/atoms/Button/Button"
 
 const Home: NextPageWithLayout = () => {
     const [inputUrl, setInputUrl] = useState<string>("")
@@ -142,9 +143,8 @@ const Home: NextPageWithLayout = () => {
                                     >
                                         {errorMessage}
                                     </p>}
-                                    <button css={styles.submitButton} onClick={handleSubmit}>
-                                        {loading ? "Loading..." : "Submit"}
-                                    </button>
+                                    <Button label={loading ? "Loading..." : "Submit"}
+                                        onClick={handleSubmit} />
                                 </div>
                             </div>
                             {knownDatabase && (
@@ -280,24 +280,6 @@ const getStyles = (theme: any) => {
             fontWeight: "400",
             fontSize: "18px",
             margin: "0 12px 0 0",
-        }),
-        submitButton: css({
-            borderRadius: "28px",
-            color: theme.colors.secondary.main,
-            backgroundColor: theme.colors.black.main,
-            padding: "6px 16px",
-            border: `solid 2px ${theme.colors.black.main}`,
-            fontSize: "16px",
-            fontFamily: "'Kanit', serif",
-            fontWeight: "600",
-            transition: "all 1s ease",
-            ":hover": {
-                borderRight: `solid 2px ${theme.colors.black.main}`,
-                borderBottom: `solid 4px ${theme.colors.black.main}`,
-            },
-            alignSelf: "center",
-            margin: "8px 28px 34px 28px",
-            width: "120px",
         }),
         panelInputContainer: css({
             display: "flex",
