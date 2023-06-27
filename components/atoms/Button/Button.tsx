@@ -1,44 +1,114 @@
 
 import { css, useTheme } from "@emotion/react"
+import Typography from "../Typography/Typography"
+import { Theme } from "../../../styles/theme"
+
+type ButtonSizeType = "small" | "medium" | "large"
+type ButtonVariantType = "contained"
+type ButtonShapeType = "rounded" | "squared"
+type ButtonColorType = "normal" | "light"
 
 type ButtonProps = {
-    size?: "small" | "medium" | "large"
+    size?: ButtonSizeType
+    variant?: ButtonVariantType
+    shape?: ButtonShapeType
+    color?: ButtonColorType | string
+    backgroundColor?: ButtonColorType | string
+    isAnimated?: boolean
     label: string
     onClick?: () => void
 }
 
-const Button = ({ size = "medium", label, onClick }: ButtonProps) => {
-    const theme = useTheme()
-    const styles = getStyles(theme)
+const Button = ({ size = "medium", variant = "contained", shape = "rounded", label, color, backgroundColor, isAnimated = true, onClick }: ButtonProps) => {
+    const theme = useTheme() as Theme
+    const styles = getStylesButton(theme, size, variant, shape, color, backgroundColor, isAnimated)
+
     return (
-        <button css={[styles.button]} onClick={onClick}>
-            {label}
+        <button css={[styles.button]} onClick={onClick} >
+            <Typography
+                variant="body1"
+                color={getColor(theme, color)}
+            >
+                {label}
+            </Typography>
         </button>
     )
 }
 
-const getStyles = (theme: any) => {
+
+const getStylesButton = (theme: Theme, size: ButtonSizeType, variant: ButtonVariantType, shape: ButtonShapeType, color?: ButtonColorType | string, backgroundColor?: ButtonColorType | string, isAnimated?: boolean) => {
     return ({
         button: css({
-            borderRadius: "28px",
-            color: theme.colors.secondary.main,
-            backgroundColor: theme.colors.black.main,
-            padding: "6px 16px",
-            border: `solid 2px ${theme.colors.black.main}`,
-            fontSize: "16px",
-            fontFamily: "'Kanit', serif",
-            fontWeight: "600",
-            transition: "all 1s ease",
-            ":hover": {
-                borderRight: `solid 2px ${theme.colors.black.main}`,
-                borderBottom: `solid 4px ${theme.colors.black.main}`,
-            },
-            alignSelf: "center",
-            margin: "8px 28px 34px 28px",
-            width: "120px",
-            cursor: "pointer"
-        }),
+            borderRadius: shape === "rounded" ? "28px" : "12px",
+            backgroundColor: getBackgroundColor(theme, backgroundColor),
+            padding: getPadding(shape, size),
+            border: getBorder(theme, backgroundColor),
+            cursor: "pointer",
+            ...(isAnimated ? {
+                transition: "all 1s ease",
+                ":hover": {
+                    borderRight: `solid 2px ${getBackgroundColor(theme, backgroundColor)}`,
+                    borderBottom: `solid 3px ${getBackgroundColor(theme, backgroundColor)}`,
+                },
+            } : {}),
+        })
     })
+}
+
+const getColor = (theme: Theme, color?: ButtonColorType | string) => {
+    if (color === "normal") {
+        return theme.colors.secondary.main
+    } else if (color === "light") {
+        return theme.colors.black.main
+    } else if (color) {
+        return color
+    }
+    return theme.colors.secondary.main
+}
+
+const getBackgroundColor = (theme: Theme, color?: ButtonColorType | string) => {
+    if (color === "normal") {
+        return theme.colors.black.main
+    } else if (color === "light") {
+        return theme.colors.secondary.main
+    } else if (color) {
+        return color
+    }
+    return theme.colors.black.main
+}
+
+const getPadding = (shape: ButtonShapeType, size: ButtonSizeType) => {
+    if (shape === "rounded") {
+        if (size === "small") {
+            // TODO
+            return "4px 10px"
+        } else if (size === "medium") {
+            return "6px 16px"
+        } else if (size === "large") {
+            // TODO
+            return "4px 10px"
+        }
+    } else {
+        if (size === "small") {
+            // TODO
+            return "6px 16px"
+        } else if (size === "medium") {
+            // TODO
+            return "6px 16px"
+        } else if (size === "large") {
+            return "12px 28px"
+        }
+    }
+}
+const getBorder = (theme: Theme, color?: ButtonColorType | string) => {
+    if (color === "normal") {
+        return `solid 2px ${theme.colors.black.main}`
+    } else if (color === "light") {
+        return `solid 2px ${theme.colors.secondary.main}`
+    } else if (color) {
+        return `solid 2px ${color}`
+    }
+    return `solid 2px ${theme.colors.black.main} `
 }
 
 export default Button
