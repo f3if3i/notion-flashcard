@@ -24,20 +24,6 @@ const getStyles = (theme: any) => {
         })
     })
 }
-// const styles = {
-
-//     container: css({
-//         display: "flex",
-//         justifyContent: "center",
-//         alignItems: "center",
-//         padding: "0.5rem",
-//         fontSize: "8px",
-//         color: theme.colors.grey[100],
-//         position: "absolute",
-//         bottom: 0,
-//         width: "100%",
-//     })
-// }
-
 
 export default Footer
+

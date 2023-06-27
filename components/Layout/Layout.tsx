@@ -1,7 +1,7 @@
 import { css, ThemeProvider } from "@emotion/react"
 import { ReactElement } from "react"
 import { themes } from "../../styles/theme"
-import Footer from "../Footer/Footer"
+import Footer from "../molecules/Footer/Footer"
 import Header from "../Header/Header"
 
 type LayoutProps = {
