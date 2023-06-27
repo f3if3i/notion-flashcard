@@ -1,6 +1,6 @@
 import { css, ThemeProvider } from "@emotion/react"
 import { ReactElement } from "react"
-import { themes } from "../../styles/theme"
+import { defaultTheme } from "../../styles/theme"
 import Footer from "../molecules/Footer/Footer"
 import Header from "../molecules/Header/Header"
 
@@ -8,9 +8,9 @@ type LayoutProps = {
     children: ReactElement
 }
 export default function Layout({ children }: LayoutProps) {
-    const styles = getStyles(themes.default)
+    const styles = getStyles(defaultTheme)
     return (
-        <ThemeProvider theme={themes.default}>
+        <ThemeProvider theme={defaultTheme}>
             <div css={styles.container}>
                 <Header releaseNote={"🚀 0.1.0 released"} />
                 <div css={styles.content}>{children}</div>
