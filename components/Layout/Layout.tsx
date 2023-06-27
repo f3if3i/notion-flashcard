@@ -2,7 +2,7 @@ import { css, ThemeProvider } from "@emotion/react"
 import { ReactElement } from "react"
 import { themes } from "../../styles/theme"
 import Footer from "../molecules/Footer/Footer"
-import Header from "../Header/Header"
+import Header from "../molecules/Header/Header"
 
 type LayoutProps = {
     children: ReactElement
@@ -12,7 +12,7 @@ export default function Layout({ children }: LayoutProps) {
     return (
         <ThemeProvider theme={themes.default}>
             <div css={styles.container}>
-                <Header />
+                <Header releaseNote={"🚀 0.1.0 released"} />
                 <div css={styles.content}>{children}</div>
                 <Footer />
             </div>
