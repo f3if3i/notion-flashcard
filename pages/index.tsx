@@ -143,8 +143,18 @@ const Home: NextPageWithLayout = () => {
                                     >
                                         {errorMessage}
                                     </p>}
-                                    <Button label={loading ? "Loading..." : "Submit"}
-                                        onClick={handleSubmit} />
+                                    <div css={styles.buttonContainer}>
+                                        <Button
+                                            label={loading ? "Loading..." : "Submit"}
+                                            size="medium"
+                                            variant="contained"
+                                            color="normal"
+                                            backgroundColor="normal"
+                                            shape="rounded"
+                                            isAnimated
+                                            onClick={handleSubmit}
+                                        />
+                                    </div>
                                 </div>
                             </div>
                             {knownDatabase && (
@@ -231,6 +241,10 @@ const getStyles = (theme: any) => {
             padding: "20px",
             transition: "all 2s ease",
             marginLeft: "20px",
+        }),
+        buttonContainer: css({
+            alignSelf: "center",
+            margin: "8px 28px 34px 28px",
         }),
         cardContainer: css({
             gridColumnStart: 2,
