@@ -27,6 +27,11 @@ export const defaultTheme: Theme = {
     },
     typography: {
         body1: {
+            fontSize: "18px",
+            fontFamily: "'Kanit', serif",
+            fontWeight: "600",
+        },
+        body2: {
             fontSize: "16px",
             fontFamily: "'Kanit', serif",
             fontWeight: "600",
@@ -63,6 +68,11 @@ export const darkTheme: Theme = {
     },
     typography: {
         body1: {
+            fontSize: "18px",
+            fontFamily: "'Kanit', serif",
+            fontWeight: "600",
+        },
+        body2: {
             fontSize: "16px",
             fontFamily: "'Kanit', serif",
             fontWeight: "600",
@@ -103,6 +113,11 @@ export type Theme = {
     };
     typography: {
         body1: {
+            fontSize: string;
+            fontFamily: string;
+            fontWeight: string;
+        }
+        body2: {
             fontSize: string;
             fontFamily: string;
             fontWeight: string;
