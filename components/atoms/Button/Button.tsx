@@ -22,11 +22,12 @@ type ButtonProps = {
 const Button = ({ size = "medium", variant = "contained", shape = "rounded", label, color, backgroundColor, isAnimated = true, onClick }: ButtonProps) => {
     const theme = useTheme() as Theme
     const styles = getStylesButton(theme, size, variant, shape, color, backgroundColor, isAnimated)
+    const fontSize = getFontSize(size)
 
     return (
         <button css={[styles.button]} onClick={onClick} >
             <Typography
-                variant="body1"
+                variant={fontSize}
                 color={getColor(theme, color)}
             >
                 {label}
@@ -35,6 +36,12 @@ const Button = ({ size = "medium", variant = "contained", shape = "rounded", lab
     )
 }
 
+const getFontSize = (size: ButtonSizeType) => {
+    if (size === "large") {
+        return "body1"
+    }
+    return "body2"
+}
 
 const getStylesButton = (theme: Theme, size: ButtonSizeType, variant: ButtonVariantType, shape: ButtonShapeType, color?: ButtonColorType | string, backgroundColor?: ButtonColorType | string, isAnimated?: boolean) => {
     return ({
