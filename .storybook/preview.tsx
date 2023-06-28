@@ -1,10 +1,13 @@
 import { ThemeProvider } from "@emotion/react";
 import { type Preview } from "@storybook/react";
 import React from "react";
-import { themes } from "../styles/theme";
+import { defaultTheme, darkTheme } from "../styles/theme";
 
 const getTheme = (themeName) => {
-  return themes[themeName];
+  if (themeName === "default") {
+    return defaultTheme
+  }
+  return darkTheme
 };
 
 const withThemeProvider = (Story, context) => {
