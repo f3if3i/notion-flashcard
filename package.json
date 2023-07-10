@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "scaffold:component": "ts-node --project scripts/tsconfig.json scripts/component_scaffold/index.ts --",
-    "scaffold:page": "ts-node --project scripts/tsconfig.json scripts/page_scaffold/index.ts --"
+    "scaffold:page": "ts-node --project scripts/tsconfig.json scripts/page_scaffold/index.ts --",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@emotion/css": "^11.10.0",
@@ -16,20 +18,33 @@
     "@emotion/server": "^11.10.0",
     "@emotion/styled": "^11.10.4",
     "@notionhq/client": "^2.2.1",
+    "@reduxjs/toolkit": "^1.9.0",
     "@types/react-transition-group": "^4.4.5",
     "axios": "^1.1.3",
-    "next": "12.3.1",
+    "next": "13.4.5",
+    "next-redux-wrapper": "^8.0.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.6.0",
+    "react-redux": "^8.0.5",
     "react-transition-group": "^4.4.5"
   },
   "devDependencies": {
+    "@storybook/addon-essentials": "^7.0.20",
+    "@storybook/addon-interactions": "^7.0.20",
+    "@storybook/addon-links": "^7.0.20",
+    "@storybook/blocks": "^7.0.20",
+    "@storybook/nextjs": "^7.0.20",
+    "@storybook/react": "^7.0.20",
+    "@storybook/testing-library": "^0.0.14-next.2",
     "@types/node": "18.11.0",
     "@types/react": "18.0.21",
     "@types/react-dom": "18.0.6",
+    "@types/react-redux": "^7.1.24",
     "eslint": "8.25.0",
-    "eslint-config-next": "12.3.1",
+    "eslint-config-next": "13.4.5",
+    "eslint-plugin-storybook": "^0.6.12",
+    "storybook": "^7.0.20",
     "ts-node": "^10.9.1",
     "typescript": "4.8.4"
   }

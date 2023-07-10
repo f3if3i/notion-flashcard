@@ -2,5 +2,17 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
-  "eslint.validate": ["javascript", "typescript"]
- }
+  "eslint.validate": [
+    "javascript",
+    "typescript"
+  ],
+  "cSpell.words": [
+    "autodocs",
+    "circlehollow",
+    "Kanit",
+    "Merriweather",
+    "nextjs",
+    "notionhq"
+  ],
+  "editor.tabSize": 2,
+}
