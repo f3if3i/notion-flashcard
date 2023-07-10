@@ -12,7 +12,7 @@ import type { NextPageWithLayout } from "./_app"
 import { css, useTheme } from "@emotion/react"
 import { CSSTransition } from "react-transition-group"
 import { HiArrowCircleLeft } from "react-icons/hi"
-import Card from "../components/Card"
+import FlashCard from "../components/organisms/FlashCard"
 import { getDatabaseId, isDBIdValid } from "../utils/parseUrl"
 import {
     localStorageInit,
@@ -22,6 +22,7 @@ import {
 import { DBInfoType } from "../types/database"
 import { useFetch } from "../hooks/useFetch"
 import Button from "../components/atoms/Button/Button"
+import Card from "../components/atoms/Card/Card"
 
 const Home: NextPageWithLayout = () => {
     const [inputUrl, setInputUrl] = useState<string>("")
@@ -183,17 +184,21 @@ const Home: NextPageWithLayout = () => {
                 )}
             </CSSTransition>
             <main css={styles.cardContainer}>
-                {isPanelExpand && loading ? (
-                    <p css={styles.label}>Loading</p>
-                ) : database.contents.length > 0 ? (
-                    <Card
-                        databaseContent={database.contents}
-                        databaseInfo={{ id: database.id, name: database.name }}
-                        userInfo={user}
-                    />
-                ) : (
-                    <p css={styles.label}>Nothing loaded yet</p>
-                )}
+                <Card width="100%" height="100%" backgroundColor="normal" borderRadius="l">
+                    <div css={styles.cardContent}>
+                        {isPanelExpand && loading ? (
+                            <p css={styles.label}>Loading</p>
+                        ) : database.contents.length > 0 ? (
+                            <FlashCard
+                                databaseContent={database.contents}
+                                databaseInfo={{ id: database.id, name: database.name }}
+                                userInfo={user}
+                            />
+                        ) : (
+                            <p css={styles.label}>Nothing loaded yet</p>
+                        )}
+                    </div>
+                </Card>
             </main>
         </div>
     )
@@ -252,17 +257,19 @@ const getStyles = (theme: any) => {
         cardContainer: css({
             gridColumnStart: 2,
             gridColumnEnd: 5,
-            backgroundColor: theme.colors.grey[100],
             gridRowStart: 1,
             gridRowEnd: 2,
-            boxShadow: `${theme.colors.shadow[100]} 0px 2px 4px`,
-            borderRadius: "28px",
+            width: "100%",
+            height: "100%"
+        }),
+        cardContent: css({
             display: "flex",
             flexWrap: "nowrap",
             flexDirection: "row",
             textOverflow: "ellipsis",
             justifyContent: "center",
             alignItems: "center",
+            height: "100%"
         }),
         dbInputContainer: css({
             minWidth: "420px",
