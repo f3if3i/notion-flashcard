@@ -46,7 +46,7 @@ const getFontSize = (size: ButtonSizeType) => {
 const getStylesButton = (theme: Theme, size: ButtonSizeType, variant: ButtonVariantType, shape: ButtonShapeType, color?: ButtonColorType | string, backgroundColor?: ButtonColorType | string, isAnimated?: boolean) => {
     return ({
         button: css({
-            borderRadius: shape === "rounded" ? "28px" : "12px",
+            borderRadius: shape === "rounded" ? theme.borderRadius[7] : theme.borderRadius[3],
             backgroundColor: getBackgroundColor(theme, backgroundColor),
             padding: getPadding(shape, size),
             border: getBorder(theme, backgroundColor),
@@ -90,7 +90,7 @@ const getPadding = (shape: ButtonShapeType, size: ButtonSizeType) => {
             // TODO
             return "4px 10px"
         } else if (size === "medium") {
-            return "6px 16px"
+            return "8px 16px"
         } else if (size === "large") {
             // TODO
             return "4px 10px"
@@ -101,7 +101,7 @@ const getPadding = (shape: ButtonShapeType, size: ButtonSizeType) => {
             return "6px 16px"
         } else if (size === "medium") {
             // TODO
-            return "6px 16px"
+            return "8px 16px"
         } else if (size === "large") {
             return "12px 28px"
         }

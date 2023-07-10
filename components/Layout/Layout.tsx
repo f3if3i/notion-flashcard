@@ -12,7 +12,7 @@ export default function Layout({ children }: LayoutProps) {
     return (
         <ThemeProvider theme={defaultTheme}>
             <div css={styles.container}>
-                <Header releaseNote={"🚀 0.1.0 released"} />
+                <Header releaseNote={"🚀 0.1.1 released"} />
                 <div css={styles.content}>{children}</div>
                 <Footer />
             </div>
