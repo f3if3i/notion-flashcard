@@ -26,6 +26,11 @@ export const defaultTheme: Theme = {
         }
     },
     typography: {
+        h4: {
+            fontSize: "28px",
+            fontFamily: "'Kanit', serif",
+            fontWeight: "600",
+        },
         body1: {
             fontSize: "18px",
             fontFamily: "'Kanit', serif",
@@ -35,7 +40,38 @@ export const defaultTheme: Theme = {
             fontSize: "16px",
             fontFamily: "'Kanit', serif",
             fontWeight: "600",
-        }
+        },
+    },
+    borderRadius: {
+        1: "4px",
+        2: "8px",
+        3: "12px",
+        4: "16px",
+        5: "20px",
+        6: "24px",
+        7: "28px",
+        8: "32px",
+        10: "40px",
+    },
+    spacing: {
+        1: "4px",
+        2: "8px",
+        3: "12px",
+        4: "16px",
+        5: "20px",
+        6: "24px",
+        7: "28px",
+        8: "32px",
+        10: "40px",
+        12: "48px",
+    },
+    boxShadow: {
+        100: "rgba(0, 0, 0, 0.18) 0px 2px 4px"
+    },
+    fontFamily: {
+        kanit: "'Kanit', serif",
+        merriweather: "'Merriweather', serif",
+        inter: "'Inter', sans-serif"
     }
 }
 
@@ -67,6 +103,11 @@ export const darkTheme: Theme = {
         }
     },
     typography: {
+        h4: {
+            fontSize: "28px",
+            fontFamily: "'Kanit', serif",
+            fontWeight: "600",
+        },
         body1: {
             fontSize: "18px",
             fontFamily: "'Kanit', serif",
@@ -77,6 +118,37 @@ export const darkTheme: Theme = {
             fontFamily: "'Kanit', serif",
             fontWeight: "600",
         }
+    },
+    borderRadius: {
+        1: "4px",
+        2: "8px",
+        3: "12px",
+        4: "16px",
+        5: "20px",
+        6: "24px",
+        7: "28px",
+        8: "32px",
+        10: "40px",
+    },
+    spacing: {
+        1: "4px",
+        2: "8px",
+        3: "12px",
+        4: "16px",
+        5: "20px",
+        6: "24px",
+        7: "28px",
+        8: "32px",
+        10: "40px",
+        12: "48px",
+    },
+    boxShadow: {
+        100: "rgba(0, 0, 0, 0.18) 0px 2px 4px"
+    },
+    fontFamily: {
+        kanit: "'Kanit', serif",
+        merriweather: "'Merriweather', serif",
+        inter: "'Inter', sans-serif"
     }
 }
 
@@ -112,6 +184,11 @@ export type Theme = {
         }
     };
     typography: {
+        h4: {
+            fontSize: string;
+            fontFamily: string;
+            fontWeight: string;
+        }
         body1: {
             fontSize: string;
             fontFamily: string;
@@ -122,5 +199,36 @@ export type Theme = {
             fontFamily: string;
             fontWeight: string;
         };
+    },
+    spacing: {
+        1: string;
+        2: string;
+        3: string;
+        4: string;
+        5: string;
+        6: string;
+        7: string;
+        8: string;
+        10: string;
+        12: string;
+    },
+    borderRadius: {
+        1: string;
+        2: string;
+        3: string;
+        4: string;
+        5: string;
+        6: string;
+        7: string;
+        8: string;
+        10: string;
+    },
+    boxShadow: {
+        100: string;
+    },
+    fontFamily: {
+        kanit: string;
+        merriweather: string;
+        inter: string;
     }
 }
