@@ -34,12 +34,12 @@ export const defaultTheme: Theme = {
         body1: {
             fontSize: "18px",
             fontFamily: "'Kanit', serif",
-            fontWeight: "600",
+            fontWeight: "400",
         },
         body2: {
             fontSize: "16px",
             fontFamily: "'Kanit', serif",
-            fontWeight: "600",
+            fontWeight: "400",
         },
     },
     borderRadius: {
@@ -111,12 +111,12 @@ export const darkTheme: Theme = {
         body1: {
             fontSize: "18px",
             fontFamily: "'Kanit', serif",
-            fontWeight: "600",
+            fontWeight: "400",
         },
         body2: {
             fontSize: "16px",
             fontFamily: "'Kanit', serif",
-            fontWeight: "600",
+            fontWeight: "400",
         }
     },
     borderRadius: {
