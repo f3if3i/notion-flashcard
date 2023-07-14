@@ -29,7 +29,8 @@ const getStyles = (theme: Theme, direction: "vertical" | "horizontal") => {
         }),
         fieldset: css({
             border: "none",
-            padding: 0
+            padding: 0,
+            margin: 0
         })
     })
 }
