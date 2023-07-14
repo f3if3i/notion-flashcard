@@ -6,6 +6,7 @@ import { DBDataType, DBInfoType } from "../../../types/database"
 import Button from "../../atoms/Button/Button"
 import Card from "../../atoms/Card/Card"
 import { Theme } from "../../../styles/theme"
+import DatabaseInfoPanel from "../../molecules/DatabaseInfoPanel/DatabaseInfoPanel"
 
 type FlashcardProps = {
     databaseContent: DBDataType[],
@@ -67,12 +68,10 @@ const Flashcard = ({ databaseContent, databaseInfo, userInfo }: FlashcardProps) 
                 </div>
             </Card>
             <div css={styles.flashcardControlContainer}>
-                <div>
-                    <p>Database created by <span css={styles.underline}>{userInfo && userInfo.userName}</span></p>
-                    <p>And you are now learning <span css={styles.underline}>{databaseInfo && databaseInfo.name}</span></p>
-
-                    <p> Progress: <span css={styles.underline}>{contentIndex + 1}</span> / {databaseContent.length}</p>
-                </div>
+                <DatabaseInfoPanel
+                    userName={userInfo && userInfo.userName ? userInfo.userName : "undefined"} databaseName={databaseInfo && databaseInfo.name ? databaseInfo.name : "undefined"}
+                    databaseLength={databaseContent.length}
+                    currentIndex={contentIndex + 1} />
                 <Button
                     onClick={handleNextButton}
                     label="Next" />
@@ -97,13 +96,10 @@ const getStyles = (theme: any) => {
         flashcardControlContainer: css({
             display: "flex",
             flexDirection: "column",
-            fontSize: "18px",
-            fontFamily: "'Kanit', serif",
-            fontWeight: "400",
+            flexGrow: "100%",
             padding: "20px",
-        }),
-        underline: css({
-            textDecoration: `${theme.colors.secondary.main} wavy underline`
+            width: "100%",
+            gap: theme.spacing[8],
         }),
         cardContent: css({
             textAlign: "center",
