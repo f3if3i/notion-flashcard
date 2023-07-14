@@ -41,11 +41,12 @@ const getStyles = (theme: Theme) => {
         label: css({
             display: "flex",
             gap: theme.spacing[1],
-            cursor: "pointer"
+            cursor: "pointer",
+            lineHeight: "30px"
         }),
         customRadio: css({
             left: "-8px",
-            top: "4px",
+            top: "6px",
             cursor: "pointer",
             width: "18px",
             height: "18px",

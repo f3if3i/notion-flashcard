@@ -1,7 +1,7 @@
 import { css, useTheme } from "@emotion/react"
 import { Theme } from "../../../styles/theme"
 
-type TypographyVariantType = "body1" | "body2"
+type TypographyVariantType = "body1" | "body2" | "h4"
 
 type TypographyProps = {
     variant: TypographyVariantType
