@@ -23,11 +23,19 @@ import { DBInfoType } from "../types/database"
 import { useFetch } from "../hooks/useFetch"
 import Button from "../components/atoms/Button/Button"
 import Card from "../components/atoms/Card/Card"
+import RadioButtonGroup from "../components/molecules/RadioButtonGroup/RadioButtonGroup"
+import RadioButton from "../components/atoms/RadioButton/RadioButton"
+import TestBoard from "../components/organisms/TestBoard/TestBoard"
+// import { useTest } from "../hooks/useTest"
+// import { getTestElements } from "../utils/array"
+
+type ModeType = "flipCard" | "test"
 
 const Home: NextPageWithLayout = () => {
     const [inputUrl, setInputUrl] = useState<string>("")
     const [updatedUrl, setUpdatedUrl] = useState<string>("")
     const [knownDatabase, setKnowDatabase] = useState<DBInfoType[]>([])
+    const [mode, setMode] = useState<ModeType>("flipCard")
     const [isPanelExpand, setPanelExpand] = useState<boolean>(false)
     const {
         loading,
@@ -36,6 +44,24 @@ const Home: NextPageWithLayout = () => {
         database,
         setErrorMessage,
     } = useFetch(updatedUrl)
+    // const { testArr } = useTest()
+    // const testLength = 20
+    // const optionLength = 4
+    // const testArr = getTestElements(database.contents, testLength, optionLength)
+    // const testArr =
+    const testArr = [
+        {
+            name: "name1",
+            options: ["string1", "string2", "string3", "string4"],
+            description: "description1"
+        },
+        {
+            name: "name2",
+            options: ["string1", "string2", "string3", "string4"],
+            description: "description1"
+        }
+    ]
+
 
     const theme = useTheme()
     const styles = getStyles(theme)
@@ -87,6 +113,10 @@ const Home: NextPageWithLayout = () => {
         setPanelExpand((prev) => !prev)
     }
 
+    const handleMode = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setMode(event.target.value as ModeType)
+    }
+
     // no idea how this works
     const nodeRef = useRef<HTMLDivElement>(null)
 
@@ -125,25 +155,32 @@ const Home: NextPageWithLayout = () => {
 
                                 {/* second element */}
                                 <div css={styles.panelInputContainer}>
-                                    <label>
-                                        <p css={styles.label}>Enter your Notion Database Url 📝</p>
-                                        <input
-                                            css={styles.inputField}
-                                            placeholder="Your database url..."
-                                            type="text"
-                                            value={inputUrl}
-                                            name="inputUrl"
-                                            onChange={handleUrlChange}
-                                        />
-                                    </label>
-                                    {errorMessage && <p
-                                        css={[
-                                            styles.inputErrorMessage,
-                                            errorMessage && styles.inputErrorMessageAnimation,
-                                        ]}
-                                    >
-                                        {errorMessage}
-                                    </p>}
+                                    <div>
+                                        <label>
+                                            <p css={styles.label}>Enter your Notion Database Url 📝</p>
+                                            <input
+                                                css={styles.inputField}
+                                                placeholder="Your database url..."
+                                                type="text"
+                                                value={inputUrl}
+                                                name="inputUrl"
+                                                onChange={handleUrlChange}
+                                            />
+                                        </label>
+                                        {errorMessage && <p
+                                            css={[
+                                                styles.inputErrorMessage,
+                                                errorMessage && styles.inputErrorMessageAnimation,
+                                            ]}
+                                        >
+                                            {errorMessage}
+                                        </p>}
+                                    </div>
+                                    <RadioButtonGroup name="Select a mode" direction="horizontal">
+                                        <RadioButton name="flipCardMode" label={"Flip card"} isChecked={mode === "flipCard"} value="flipCard" onChange={(e) => handleMode(e)} />
+                                        <RadioButton name="testMode" label={"Test"} isChecked={mode === "test"} value="test" onChange={(e) => handleMode(e)} />
+
+                                    </RadioButtonGroup>
                                     <div css={styles.buttonContainer}>
                                         <Button
                                             label={loading ? "Loading..." : "Submit"}
@@ -189,18 +226,18 @@ const Home: NextPageWithLayout = () => {
                         {isPanelExpand && loading ? (
                             <p css={styles.label}>Loading</p>
                         ) : database.contents.length > 0 ? (
-                            <FlashCard
+                            mode === "flipCard" ? <FlashCard
                                 databaseContent={database.contents}
                                 databaseInfo={{ id: database.id, name: database.name }}
                                 userInfo={user}
-                            />
+                            /> : <TestBoard testArray={testArr} userInfo={user} databaseInfo={{ id: database.id, name: database.name }} />
                         ) : (
                             <p css={styles.label}>Nothing loaded yet</p>
                         )}
                     </div>
                 </Card>
             </main>
-        </div>
+        </div >
     )
 }
 
@@ -309,6 +346,7 @@ const getStyles = (theme: any) => {
             display: "flex",
             flexDirection: "column",
             overflow: "hidden",
+            gap: theme.spacing[5]
         }),
         inputErrorMessage: css({
             transform: "translateX(-100%)",
