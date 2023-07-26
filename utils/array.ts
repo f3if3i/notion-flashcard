@@ -1,4 +1,5 @@
 import { DBDataType } from "../types/database"
+import { testItemType } from "../types/test"
 
 export const getRandomElements = (array: any[], count: number) => {
     const shuffleArray = (array: any[]) => {
@@ -37,11 +38,12 @@ export const getTestElements = (array: DBDataType[], count: number, optionsLengt
         }
         const randomNameElements = getRandomElements(nameElements, optionsLength - 1)
         randomNameElements.push(item.name)
+        const finalRandomElements = getRandomElements(randomNameElements, optionsLength)
         return {
             name: item.name,
-            options: randomNameElements,
+            options: finalRandomElements,
             description: item.description
         }
     })
-    return testElements
+    return testElements as testItemType[]
 }
