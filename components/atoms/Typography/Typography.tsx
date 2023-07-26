@@ -1,7 +1,7 @@
 import { css, useTheme } from "@emotion/react"
 import { Theme } from "../../../styles/theme"
 
-type TypographyVariantType = "body1" | "body2"
+type TypographyVariantType = "body1" | "body2" | "h4"
 
 type TypographyProps = {
     variant: TypographyVariantType
@@ -14,7 +14,7 @@ const Typography = ({ variant, color, fontWeight, children }: TypographyProps) =
     const theme = useTheme() as Theme
     const styles = getStyles(color ?? theme.colors.black.main, fontWeight ?? "400")
     return (
-        <div css={[styles.container, theme.typography[variant]]}>{children}</div>
+        <div css={[theme.typography[variant], styles.container]}>{children}</div>
     )
 }
 
