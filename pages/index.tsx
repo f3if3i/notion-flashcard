@@ -26,8 +26,7 @@ import Card from "../components/atoms/Card/Card"
 import RadioButtonGroup from "../components/molecules/RadioButtonGroup/RadioButtonGroup"
 import RadioButton from "../components/atoms/RadioButton/RadioButton"
 import TestBoard from "../components/organisms/TestBoard/TestBoard"
-// import { useTest } from "../hooks/useTest"
-// import { getTestElements } from "../utils/array"
+import { getTestElements } from "../utils/array"
 
 type ModeType = "flipCard" | "test"
 
@@ -35,7 +34,7 @@ const Home: NextPageWithLayout = () => {
     const [inputUrl, setInputUrl] = useState<string>("")
     const [updatedUrl, setUpdatedUrl] = useState<string>("")
     const [knownDatabase, setKnowDatabase] = useState<DBInfoType[]>([])
-    const [mode, setMode] = useState<ModeType>("flipCard")
+    const [mode, setMode] = useState<ModeType>("test")
     const [isPanelExpand, setPanelExpand] = useState<boolean>(false)
     const {
         loading,
@@ -44,24 +43,6 @@ const Home: NextPageWithLayout = () => {
         database,
         setErrorMessage,
     } = useFetch(updatedUrl)
-    // const { testArr } = useTest()
-    // const testLength = 20
-    // const optionLength = 4
-    // const testArr = getTestElements(database.contents, testLength, optionLength)
-    // const testArr =
-    const testArr = [
-        {
-            name: "name1",
-            options: ["string1", "string2", "string3", "string4"],
-            description: "description1"
-        },
-        {
-            name: "name2",
-            options: ["string1", "string2", "string3", "string4"],
-            description: "description1"
-        }
-    ]
-
 
     const theme = useTheme()
     const styles = getStyles(theme)
@@ -230,7 +211,7 @@ const Home: NextPageWithLayout = () => {
                                 databaseContent={database.contents}
                                 databaseInfo={{ id: database.id, name: database.name }}
                                 userInfo={user}
-                            /> : <TestBoard testArray={testArr} userInfo={user} databaseInfo={{ id: database.id, name: database.name }} />
+                            /> : (database.contents.length > 0 ? <TestBoard testArray={getTestElements(database.contents, 20, 4)} userInfo={user} databaseInfo={{ id: database.id, name: database.name }} /> : <div>Nothing loaded yet</div>)
                         ) : (
                             <p css={styles.label}>Nothing loaded yet</p>
                         )}
