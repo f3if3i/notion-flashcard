@@ -5,9 +5,12 @@ import Head from "next/head"
 import Layout from "../components/Layout/Layout"
 import type { ReactElement } from "react"
 import type { NextPageWithLayout } from "./_app"
-import { css } from "@emotion/react"
+import { css, useTheme } from "@emotion/react"
+import { Theme } from "../styles/theme"
 
 const ${name}: NextPageWithLayout = () => {
+    const theme = useTheme() as Theme
+    const styles = getStyles(theme)
 
     return (
         <div css={styles.container}>
@@ -27,10 +30,12 @@ const ${name}: NextPageWithLayout = () => {
     )
 }
 
-const styles = {
-	container: css({
-		backgroundColor: "pink"
-	})
+const getStyles = (theme: Theme) => {
+    return ({
+        container: css({
+            backgroundColor: "pink"
+        })
+    })
 }
 
 ${name}.getLayout = function getLayout(page: ReactElement) {
