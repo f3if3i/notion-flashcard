@@ -2,6 +2,7 @@ import { css, useTheme } from "@emotion/react"
 import { Theme } from "../../../styles/theme"
 import Typography from "../../atoms/Typography"
 import Card from "../../atoms/Card"
+import Section from "../Section/Section"
 
 type ReportHeaderProps = {
     testTheme: string
@@ -13,8 +14,7 @@ const ReportHeader = ({ testTheme, author, score }: ReportHeaderProps) => {
     const theme = useTheme() as Theme
     const styles = getStyles(theme)
     return (
-        <div css={styles.container}>
-            <Typography variant={"h4"}>Overview</Typography>
+        <Section title="Overview">
             <div css={styles.headerInnerContainer}>
                 <div css={styles.detailsItemContainer}>
                     <HeaderCard title={"Theme"} context={testTheme} />
@@ -26,7 +26,7 @@ const ReportHeader = ({ testTheme, author, score }: ReportHeaderProps) => {
                     <HeaderCard title={"Score"} context={score} />
                 </div>
             </div>
-        </div>
+        </Section>
     )
 }
 
@@ -50,17 +50,11 @@ const getStyles = (theme: Theme) => {
         container: css({
             display: "flex",
             flexDirection: "column",
-            width: "100%",
-            justifyContent: "space-between",
-        }),
-        headerTitleContainer: css({
-
         }),
         headerInnerContainer: css({
             display: "flex",
             justifyContent: "space-between",
             gap: theme.spacing[12],
-            marginTop: theme.spacing[4]
         }),
         detailsTitleContainer: css({
             marginBottom: theme.spacing[2]
