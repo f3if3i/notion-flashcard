@@ -31,6 +31,16 @@ export const defaultTheme: Theme = {
             fontFamily: "'Kanit', serif",
             fontWeight: "600",
         },
+        h5: {
+            fontSize: "24px",
+            fontFamily: "'Kanit', serif",
+            fontWeight: "600",
+        },
+        h6: {
+            fontSize: "20px",
+            fontFamily: "'Kanit', serif",
+            fontWeight: "600",
+        },
         body1: {
             fontSize: "18px",
             fontFamily: "'Kanit', serif",
@@ -41,6 +51,11 @@ export const defaultTheme: Theme = {
             fontFamily: "'Kanit', serif",
             fontWeight: "400",
         },
+        body3: {
+            fontSize: "14px",
+            fontFamily: "'Kanit', serif",
+            fontWeight: "400",
+        }
     },
     borderRadius: {
         1: "4px",
@@ -109,6 +124,16 @@ export const darkTheme: Theme = {
             fontFamily: "'Kanit', serif",
             fontWeight: "600",
         },
+        h5: {
+            fontSize: "24px",
+            fontFamily: "'Kanit', serif",
+            fontWeight: "600",
+        },
+        h6: {
+            fontSize: "20px",
+            fontFamily: "'Kanit', serif",
+            fontWeight: "600",
+        },
         body1: {
             fontSize: "18px",
             fontFamily: "'Kanit', serif",
@@ -116,6 +141,11 @@ export const darkTheme: Theme = {
         },
         body2: {
             fontSize: "16px",
+            fontFamily: "'Kanit', serif",
+            fontWeight: "400",
+        },
+        body3: {
+            fontSize: "14px",
             fontFamily: "'Kanit', serif",
             fontWeight: "400",
         }
@@ -190,13 +220,28 @@ export type Theme = {
             fontSize: string;
             fontFamily: string;
             fontWeight: string;
-        }
+        },
+        h5: {
+            fontSize: string;
+            fontFamily: string;
+            fontWeight: string;
+        },
+        h6: {
+            fontSize: string;
+            fontFamily: string;
+            fontWeight: string;
+        },
         body1: {
             fontSize: string;
             fontFamily: string;
             fontWeight: string;
         }
         body2: {
+            fontSize: string;
+            fontFamily: string;
+            fontWeight: string;
+        };
+        body3: {
             fontSize: string;
             fontFamily: string;
             fontWeight: string;
