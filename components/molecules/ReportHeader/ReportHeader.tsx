@@ -23,7 +23,7 @@ const ReportHeader = ({ testTheme, author, score }: ReportHeaderProps) => {
                     <HeaderCard title={"Author"} context={author} />
                 </div>
                 <div css={styles.detailsItemContainer}>
-                    <HeaderCard title={"Score"} context={score} />
+                    <HeaderCard title={"Score"} context={`${score}/20`} />
                 </div>
             </div>
         </Section>
