@@ -1,18 +1,27 @@
 import type { Meta, StoryObj } from "@storybook/react"
-import TestBoard from "../../components/organisms/TestBoard/index"
+import TestReport from "../../components/organisms/TestReport/index"
 
-const meta: Meta<typeof TestBoard> = {
-    title: "organisms/TestBoard",
-    component: TestBoard,
+const meta: Meta<typeof TestReport> = {
+    title: "Organisms/TestReport",
+    component: TestReport,
     tags: ["autodocs"],
 }
 
 export default meta
-type Story = StoryObj<typeof TestBoard>;
+type Story = StoryObj<typeof TestReport>;
 
 export const Primary: Story = {
     name: "default",
     args: {
+        databaseInfo: {
+            "name": "AWS Applications",
+            id: "sdfadf"
+        },
+        userInfo: {
+            userName: "Amy Harvey",
+            userId: "sdfadf"
+        },
+        score: 2,
         testArray: [
             {
                 "name": "AWS Applications Migration service(MGN)",
@@ -215,14 +224,8 @@ export const Primary: Story = {
                 "description": "a deployment service that automates application deployments to Amazon EC2 instances, op-premises instances, lambda functions or ECS services."
             }
         ],
-        databaseInfo: {
-            "id": "dummyId",
-            "name": "Services"
-        },
-        userInfo: {
-            "userId": "dummyUserId",
-            "userName": "Kanna Hashimoto"
-        }
+        selectedOptions: ["AWS Data Exchange", "AWS CodeDeploy", "Amazon CloudWatch", "Amazon Lex", "APN Technology Partners", "AWS Directory Services", "AWS Data Exchange", "AWS CodeDeploy", "Amazon CloudWatch", "Amazon Lex", "APN Technology Partners", "AWS Directory Services", "AWS Data Exchange", "AWS CodeDeploy", "Amazon CloudWatch", "Amazon Lex", "APN Technology Partners", "AWS Directory Services", "AWS Data Exchange", "AWS CodeDeploy"],
+
     },
 }
 

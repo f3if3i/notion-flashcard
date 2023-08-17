@@ -4,7 +4,7 @@ import { Theme } from "../../../styles/theme"
 import RadioButtonGroup from "../../molecules/RadioButtonGroup/RadioButtonGroup"
 import { testItemType } from "../../../types/test"
 import Typography from "../../atoms/Typography/Typography"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import DatabaseInfoPanel from "../../molecules/DatabaseInfoPanel/DatabaseInfoPanel"
 import { DBInfoType } from "../../../types/database"
 import { User } from "../../../pages/api/user"
@@ -14,6 +14,9 @@ import Card from "../../atoms/Card"
 import { HiAnnotation, HiQuestionMarkCircle } from "react-icons/hi"
 import Icon from "../../atoms/Icon/Icon"
 import Button from "../../atoms/Button/Button"
+import router from "next/router"
+import { selectTestReport, setTestReportState, setTestReportStateDatabaseInfo, setTestReportStateScore, setTestReportStateSelectedOptions, setTestReportStateTestArray, setTestReportStateUserInfo } from "../../../store/testReportSlice"
+import { useDispatch, useSelector } from "react-redux"
 
 type TestBoardProps = {
     testArray: testItemType[]
@@ -30,6 +33,12 @@ const TestBoard = ({ testArray, databaseInfo, userInfo }: TestBoardProps) => {
     const [name, setName] = useState(testArray[0].name)
     const [selectedOption, setSelectedOption] = useState("")
     const [score, setScore] = useState(0)
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(setTestReportStateTestArray(testArray))
+        dispatch(setTestReportStateUserInfo(userInfo))
+        dispatch(setTestReportStateDatabaseInfo(databaseInfo))
+    }, [dispatch, testArray, userInfo, databaseInfo])
 
     const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedOption(event.target.value)
@@ -38,6 +47,7 @@ const TestBoard = ({ testArray, databaseInfo, userInfo }: TestBoardProps) => {
     const handleNextQuestion = () => {
         if (selectedOption === name) {
             setScore(score + 1)
+            dispatch(setTestReportStateScore(score + 1))
         }
         if (progress < 19) {
             setDescription(testArray[progress + 1].description)
@@ -45,19 +55,21 @@ const TestBoard = ({ testArray, databaseInfo, userInfo }: TestBoardProps) => {
             setName(testArray[progress + 1].name)
         }
         setProgress(progress + 1)
+        dispatch(setTestReportStateSelectedOptions(selectedOption))
+        setSelectedOption("")
     }
 
     return (
         <div css={styles.container}>
             {progress < 20 ?
                 <>
-                    <Card width="75%" height="" backgroundColor="light">
+                    <Card width="65%" height="" backgroundColor="light">
                         <div css={styles.contentContainer}>
                             <div css={styles.descriptionContainer}>
                                 <div css={styles.iconContainer}>
                                     <Icon IconComponent={HiQuestionMarkCircle} />
                                 </div>
-                                <div css={styles.textContainer}><Typography variant={"body1"}>{capitalizeFirstLetter(description)}</Typography>
+                                <div css={styles.textContainer}><Typography variant={"body1"} customCss={styles.questionTypo}>{capitalizeFirstLetter(description)}</Typography>
                                 </div>
                             </div>
                             <div css={styles.answerContainer}>
@@ -109,6 +121,10 @@ const FinalResult = ({ score }: FinalResultProps) => {
       opacity: 1;
     }
   `
+
+    const buttonOnClick = () => {
+        router.push("/result")
+    }
     const styles = getStyles(theme, expand)
 
     return <Card width="100%" height="" backgroundColor="light" >
@@ -118,9 +134,10 @@ const FinalResult = ({ score }: FinalResultProps) => {
                 <div css={styles.resultContentMain}>
                     <Typography variant={"h4"}>{score}/ 20</Typography>
                 </div>
+                <div css={styles.resultReportButton}><Button label="View Details" isAnimated={true} onClick={buttonOnClick} /></div>
             </div>
         </div>
-    </Card>
+    </Card >
 }
 
 const getStyles = (theme: Theme, expand?: Keyframes) => {
@@ -196,7 +213,17 @@ const getStyles = (theme: Theme, expand?: Keyframes) => {
         }),
         resultContentMain: css({
             alignSelf: "flex-end"
-        })
+        }),
+        resultReportButton: css({
+            alignSelf: "center"
+        }),
+        questionTypo: css({
+            whiteSpace: "pre-wrap",
+            wordBreak: "break-word",
+            overflowWrap: "break-word",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+        }),
     })
 }
 

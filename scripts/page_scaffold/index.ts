@@ -46,14 +46,14 @@ const main = () => {
     try {
         validateArgs(process.argv)
         const pageName = getArgValue(process.argv[3])
-        const lowerCases = pageName.value.charAt(0).toUpperCase() + pageName.value.slice(1)
+        const upperCases = pageName.value.charAt(0).toUpperCase() + pageName.value.slice(1)
 
         writeFileSync(
-            `pages/${lowerCases}.tsx`,
-            createPageTemplate(pageName.value)
+            `pages/${pageName.value}.tsx`,
+            createPageTemplate(upperCases)
         )
     } catch (error) {
-    // eslint-disable-next-line no-console
+        // eslint-disable-next-line no-console
         console.error(error)
     }
 }
