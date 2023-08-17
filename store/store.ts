@@ -1,12 +1,14 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit"
 import databaseReducer from "../store/databaseSlice"
 import userReducer from "../store/userSlice"
+import testReportReducer from "../store/testReportSlice"
 
 export function makeStore() {
     return configureStore({
-        reducer: { 
+        reducer: {
             database: databaseReducer,
-            user: userReducer
+            user: userReducer,
+            testReport: testReportReducer
         },
     })
 }
@@ -24,10 +26,10 @@ export type AppDispatch = typeof store.dispatch
 // export type AppDispatch = typeof store.dispatch
 
 export type AppThunk<ReturnType = void> = ThunkAction<
-  ReturnType,
-  RootState,
-  unknown,
-  Action<string>
+    ReturnType,
+    RootState,
+    unknown,
+    Action<string>
 >
 
 // export default store
