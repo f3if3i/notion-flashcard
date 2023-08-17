@@ -1,16 +1,19 @@
-export const createPageTemplate = (
-    name: string
-): string => `// import type { NextPage } from "next"
+// import type { NextPage } from "next"
 import Head from "next/head"
 import Layout from "../components/Layout/Layout"
 import type { ReactElement } from "react"
 import type { NextPageWithLayout } from "./_app"
 import { css, useTheme } from "@emotion/react"
 import { Theme } from "../styles/theme"
+import TestReport from "../components/organisms/TestReport/TestReport"
+import { useSelector } from "react-redux"
+import { selectTestReport } from "../store/testReportSlice"
 
-const ${name}: NextPageWithLayout = () => {
+const Result: NextPageWithLayout = () => {
     const theme = useTheme() as Theme
     const styles = getStyles(theme)
+    const testReport = useSelector(selectTestReport)
+    const { testArray, databaseInfo, userInfo, selectedOptions, score } = testReport
 
     return (
         <div css={styles.container}>
@@ -20,25 +23,26 @@ const ${name}: NextPageWithLayout = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main>
-                <h1>
-                    Title
-                </h1>
-
+                <TestReport testArray={testArray} databaseInfo={databaseInfo} userInfo={userInfo} selectedOptions={selectedOptions} score={score}
+                />
             </main>
-
-        </div>
+        </div >
     )
 }
 
 const getStyles = (theme: Theme) => {
     return ({
         container: css({
-            backgroundColor: "pink"
+            margin: theme.spacing[9],
+            width: "100%"
+        }),
+        reportContainer: css({
+            // height: "680px"
         })
     })
 }
 
-${name}.getLayout = function getLayout(page: ReactElement) {
+Result.getLayout = function getLayout(page: ReactElement) {
     return (
         <Layout>
             {page}
@@ -46,5 +50,4 @@ ${name}.getLayout = function getLayout(page: ReactElement) {
     )
 }
 
-export default ${name}
-`
+export default Result

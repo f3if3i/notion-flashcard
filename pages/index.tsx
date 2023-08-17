@@ -27,6 +27,7 @@ import RadioButtonGroup from "../components/molecules/RadioButtonGroup/RadioButt
 import RadioButton from "../components/atoms/RadioButton/RadioButton"
 import TestBoard from "../components/organisms/TestBoard/TestBoard"
 import { getTestElements } from "../utils/array"
+import { Theme } from "../styles/theme"
 
 type ModeType = "flipCard" | "test"
 
@@ -44,7 +45,7 @@ const Home: NextPageWithLayout = () => {
         setErrorMessage,
     } = useFetch(updatedUrl)
 
-    const theme = useTheme()
+    const theme = useTheme() as Theme
     const styles = getStyles(theme)
 
     useEffect(() => {
@@ -202,7 +203,7 @@ const Home: NextPageWithLayout = () => {
                 )}
             </CSSTransition>
             <main css={styles.cardContainer}>
-                <Card width="100%" height="100%" backgroundColor="normal" borderRadius="l">
+                <Card width="960px" height="100%" backgroundColor="normal" borderRadius="l">
                     <div css={styles.cardContent}>
                         {isPanelExpand && loading ? (
                             <p css={styles.label}>Loading</p>
@@ -222,7 +223,7 @@ const Home: NextPageWithLayout = () => {
     )
 }
 
-const getStyles = (theme: any) => {
+const getStyles = (theme: Theme) => {
     return ({
         container: css({
             display: "grid",
@@ -232,6 +233,8 @@ const getStyles = (theme: any) => {
             gap: "28px",
             backgroundColor: theme.colors.grey[100],
             padding: "48px",
+            paddingTop: "160px",
+            height: "100vh",
         }),
         panelContainer: css({
             gridColumnStart: 1,
@@ -335,7 +338,7 @@ const getStyles = (theme: any) => {
             fontFamily: "'Kanit', serif",
             fontWeight: "400",
             fontSize: "16px",
-            color: theme.colors.caution.main,
+            color: theme.colors.error.main,
             margin: "8px 0 8px 0",
         }),
         inputErrorMessageAnimation: css({

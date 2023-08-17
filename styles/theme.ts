@@ -1,7 +1,8 @@
 export const defaultTheme: Theme = {
     colors: {
         secondary: { main: "rgba(252, 186, 3)" },
-        caution: { main: "#EE4521" },
+        error: { main: "#EE4521" },
+        success: { main: "#00A86B" },
         white: "#FFFFFF",
         black: {
             main: "#1B1C1E",
@@ -31,6 +32,16 @@ export const defaultTheme: Theme = {
             fontFamily: "'Kanit', serif",
             fontWeight: "600",
         },
+        h5: {
+            fontSize: "24px",
+            fontFamily: "'Kanit', serif",
+            fontWeight: "600",
+        },
+        h6: {
+            fontSize: "20px",
+            fontFamily: "'Kanit', serif",
+            fontWeight: "600",
+        },
         body1: {
             fontSize: "18px",
             fontFamily: "'Kanit', serif",
@@ -41,6 +52,11 @@ export const defaultTheme: Theme = {
             fontFamily: "'Kanit', serif",
             fontWeight: "400",
         },
+        body3: {
+            fontSize: "14px",
+            fontFamily: "'Kanit', serif",
+            fontWeight: "400",
+        }
     },
     borderRadius: {
         1: "4px",
@@ -78,8 +94,9 @@ export const defaultTheme: Theme = {
 
 export const darkTheme: Theme = {
     colors: {
-        secondary: { main: "#EE4521" },
-        caution: { main: "#EE4521" },
+        secondary: { main: "rgba(252, 186, 3)" },
+        error: { main: "#EE4521" },
+        success: { main: "#00A86B" },
         white: "#FFFFFF",
         black: {
             main: "#1B1C1E",
@@ -109,6 +126,16 @@ export const darkTheme: Theme = {
             fontFamily: "'Kanit', serif",
             fontWeight: "600",
         },
+        h5: {
+            fontSize: "24px",
+            fontFamily: "'Kanit', serif",
+            fontWeight: "600",
+        },
+        h6: {
+            fontSize: "20px",
+            fontFamily: "'Kanit', serif",
+            fontWeight: "600",
+        },
         body1: {
             fontSize: "18px",
             fontFamily: "'Kanit', serif",
@@ -116,6 +143,11 @@ export const darkTheme: Theme = {
         },
         body2: {
             fontSize: "16px",
+            fontFamily: "'Kanit', serif",
+            fontWeight: "400",
+        },
+        body3: {
+            fontSize: "14px",
             fontFamily: "'Kanit', serif",
             fontWeight: "400",
         }
@@ -159,7 +191,10 @@ export type Theme = {
         secondary: {
             main: string;
         };
-        caution: {
+        success: {
+            main: string;
+        };
+        error: {
             main: string;
         };
         white: string;
@@ -190,13 +225,28 @@ export type Theme = {
             fontSize: string;
             fontFamily: string;
             fontWeight: string;
-        }
+        },
+        h5: {
+            fontSize: string;
+            fontFamily: string;
+            fontWeight: string;
+        },
+        h6: {
+            fontSize: string;
+            fontFamily: string;
+            fontWeight: string;
+        },
         body1: {
             fontSize: string;
             fontFamily: string;
             fontWeight: string;
         }
         body2: {
+            fontSize: string;
+            fontFamily: string;
+            fontWeight: string;
+        };
+        body3: {
             fontSize: string;
             fontFamily: string;
             fontWeight: string;
