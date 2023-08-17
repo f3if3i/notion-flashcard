@@ -1,7 +1,8 @@
 export const defaultTheme: Theme = {
     colors: {
         secondary: { main: "rgba(252, 186, 3)" },
-        caution: { main: "#EE4521" },
+        error: { main: "#EE4521" },
+        success: { main: "#00A86B" },
         white: "#FFFFFF",
         black: {
             main: "#1B1C1E",
@@ -93,8 +94,9 @@ export const defaultTheme: Theme = {
 
 export const darkTheme: Theme = {
     colors: {
-        secondary: { main: "#EE4521" },
-        caution: { main: "#EE4521" },
+        secondary: { main: "rgba(252, 186, 3)" },
+        error: { main: "#EE4521" },
+        success: { main: "#00A86B" },
         white: "#FFFFFF",
         black: {
             main: "#1B1C1E",
@@ -189,7 +191,10 @@ export type Theme = {
         secondary: {
             main: string;
         };
-        caution: {
+        success: {
+            main: string;
+        };
+        error: {
             main: string;
         };
         white: string;
