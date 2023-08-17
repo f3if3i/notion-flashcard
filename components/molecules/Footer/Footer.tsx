@@ -18,7 +18,7 @@ const getStyles = (theme: any) => {
             fontSize: "8px",
             color: theme.colors.shadow[200],
             backgroundColor: theme.colors.grey[100],
-            position: "absolute",
+            // position: "absolute",
             bottom: 0,
             width: "100%",
         })
