@@ -28,7 +28,6 @@ const getStyles = (theme: any) => {
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            height: "100vh",
             minHeight: "600px"
         }),
         content: css({
